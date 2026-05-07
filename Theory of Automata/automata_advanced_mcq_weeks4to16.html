@@ -1,0 +1,249 @@
+
+<h2 class="sr-only">Theory of Automata – 50 Advanced MCQs covering Weeks 4–16: FA, NFA, Kleene, Moore/Mealy, Pumping Lemma, CFG, PDA, Turing Machines</h2>
+<style>
+  .qw{padding:1.5rem 0;font-family:var(--font-sans)}
+  .qh{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:12px}
+  .qt{font-size:20px;font-weight:500;color:var(--color-text-primary)}
+  .pb-wrap{height:6px;background:var(--color-background-secondary);border-radius:99px;margin-bottom:1.5rem}
+  .pb{height:6px;border-radius:99px;background:#185FA5;transition:width .4s}
+  .sr{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:1.5rem}
+  .sc{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 12px;text-align:center}
+  .sl{font-size:11px;color:var(--color-text-secondary);margin-bottom:2px;text-transform:uppercase;letter-spacing:.05em}
+  .sv{font-size:20px;font-weight:500;color:var(--color-text-primary)}
+  .sv.ok{color:#0F6E56}.sv.err{color:#993C1D}
+  .tr{display:flex;gap:6px;margin-bottom:1.5rem;flex-wrap:wrap}
+  .tb{font-size:13px;padding:6px 14px;border-radius:99px;border:.5px solid var(--color-border-secondary);background:transparent;color:var(--color-text-secondary);cursor:pointer}
+  .tb.active{background:var(--color-background-secondary);color:var(--color-text-primary);font-weight:500}
+  .qc{border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem;margin-bottom:1rem;background:var(--color-background-primary)}
+  .qc.cc{border-color:#1D9E75}.qc.wc{border-color:#D85A30}
+  .qm{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+  .qn{font-size:12px;font-weight:500;color:var(--color-text-secondary)}
+  .qbg{font-size:11px;padding:2px 10px;border-radius:99px;font-weight:500}
+  .bfa{background:#E6F1FB;color:#0C447C}.bnfa{background:#EEEDFE;color:#3C3489}
+  .bkl{background:#EAF3DE;color:#27500A}.bmm{background:#FAEEDA;color:#633806}
+  .brl{background:#FAECE7;color:#4A1B0C}.bcfg{background:#E1F5EE;color:#085041}
+  .bpda{background:#F1EFE8;color:#444441}.btm{background:#FCEBEB;color:#501313}
+  .qtext{font-size:15px;color:var(--color-text-primary);margin-bottom:12px;line-height:1.6}
+  .opts{display:grid;gap:6px}
+  .ob{text-align:left;padding:10px 14px;border-radius:var(--border-radius-md);border:.5px solid var(--color-border-tertiary);background:var(--color-background-primary);color:var(--color-text-primary);font-size:14px;cursor:pointer;display:flex;align-items:center;gap:10px;line-height:1.5}
+  .ob:hover:not(:disabled){background:var(--color-background-secondary);border-color:var(--color-border-secondary)}
+  .ob:disabled{cursor:default}
+  .ob.sok{background:#E1F5EE;border-color:#1D9E75;color:#085041}
+  .ob.serr{background:#FAECE7;border-color:#D85A30;color:#4A1B0C}
+  .ob.rok{background:#E1F5EE;border-color:#1D9E75;color:#085041}
+  .ol{width:22px;height:22px;border-radius:50%;border:.5px solid var(--color-border-secondary);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0}
+  .fb{font-size:13px;margin-top:10px;padding:8px 12px;border-radius:var(--border-radius-md);line-height:1.5}
+  .fb.fok{background:#E1F5EE;color:#085041}.fb.ferr{background:#FAECE7;color:#4A1B0C}
+  .ak{margin-top:2rem;border-radius:var(--border-radius-lg);border:.5px solid var(--color-border-tertiary);overflow:hidden}
+  .akh{padding:14px 18px;background:var(--color-background-secondary);font-weight:500;font-size:15px;display:flex;align-items:center;justify-content:space-between;cursor:pointer}
+  .akb{padding:18px;display:none}
+  .akb.open{display:block}
+  .ag{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:6px}
+  .ai{text-align:center;padding:6px 4px;border-radius:var(--border-radius-md);border:.5px solid var(--color-border-tertiary);font-size:13px}
+  .ai span{display:block}
+  .ain{color:var(--color-text-secondary);font-size:11px}
+  .aiv{font-weight:500;color:var(--color-text-primary)}
+  .ai.gok{background:#E1F5EE;border-color:#1D9E75}.ai.gok .aiv{color:#085041}
+  .ai.gerr{background:#FAECE7;border-color:#D85A30}.ai.gerr .aiv{color:#4A1B0C}
+  .sh{font-size:13px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.08em;margin:1.5rem 0 .75rem}
+  .rbtn{padding:10px 20px;border-radius:99px;border:.5px solid var(--color-border-secondary);background:transparent;color:var(--color-text-primary);cursor:pointer;font-size:14px}
+  .rbtn:hover{background:var(--color-background-secondary)}
+</style>
+
+<div class="qw">
+  <div class="qh">
+    <div class="qt">Automata — Advanced 50 MCQs (Weeks 4–16)</div>
+    <button class="rbtn" onclick="reset()"><i class="ti ti-refresh" aria-hidden="true"></i> Reset</button>
+  </div>
+  <div class="pb-wrap"><div class="pb" id="pb" style="width:0%"></div></div>
+  <div class="sr">
+    <div class="sc"><div class="sl">Answered</div><div class="sv" id="sa">0/50</div></div>
+    <div class="sc"><div class="sl">Correct</div><div class="sv ok" id="sok">0</div></div>
+    <div class="sc"><div class="sl">Wrong</div><div class="sv err" id="serr">0</div></div>
+    <div class="sc"><div class="sl">Score</div><div class="sv" id="spct">0%</div></div>
+  </div>
+  <div class="tr">
+    <button class="tb active" onclick="setFilter('all',this)">All (50)</button>
+    <button class="tb" onclick="setFilter('fa',this)">FA / DFA</button>
+    <button class="tb" onclick="setFilter('nfa',this)">NFA / Kleene</button>
+    <button class="tb" onclick="setFilter('mm',this)">Moore / Mealy</button>
+    <button class="tb" onclick="setFilter('rl',this)">Reg. Languages</button>
+    <button class="tb" onclick="setFilter('cfg',this)">CFG</button>
+    <button class="tb" onclick="setFilter('pda',this)">PDA</button>
+    <button class="tb" onclick="setFilter('tm',this)">Turing Machines</button>
+    <button class="tb" onclick="setFilter('wrong',this)">Wrong only</button>
+  </div>
+  <div id="qbody"></div>
+  <div class="ak">
+    <div class="akh" onclick="toggleAK()">
+      <span><i class="ti ti-key" aria-hidden="true"></i> Answer key</span>
+      <i class="ti ti-chevron-down" id="akchev" aria-hidden="true"></i>
+    </div>
+    <div class="akb" id="akbody"><div class="ag" id="akgrid"></div></div>
+  </div>
+</div>
+
+<script>
+const QS=[
+  {w:"fa",q:"A DFA is formally defined as a 5-tuple. Which of the following is the correct 5-tuple?",o:["(Q, Σ, δ, q0, F)","(Q, Σ, Γ, δ, F)","(Q, δ, q0, F, λ)","(Σ, Γ, δ, q0, F)"],a:0,ex:"DFA = (Q, Σ, δ, q0, F): Q=states, Σ=alphabet, δ=transition function, q0=start state, F=final states."},
+  {w:"fa",q:"In a DFA, the transition function δ maps:",o:["A state to a set of states","A state and input symbol to exactly one state","An input symbol to a state","A set of states to one state"],a:1,ex:"δ: Q × Σ → Q. From current state + input symbol, exactly ONE next state is determined. This is what makes it DETERMINISTIC."},
+  {w:"fa",q:"In a DFA state diagram, which notation marks the START state?",o:["Double circle","Star symbol (*)","Arrow pointing to it from nowhere","Dashed circle"],a:2,ex:"Start state is marked with an arrow pointing to it from outside (no source state). Final/accepting states use double circles."},
+  {w:"fa",q:"A DFA is tracing the string 'aba' and ends in a non-final state. What is the result?",o:["Accept","Reject","Undefined","Loop forever"],a:1,ex:"A DFA ACCEPTS if and only if it ends in a FINAL state after reading all input. If it ends in a non-final state, it REJECTS."},
+  {w:"fa",q:"In a DFA, every state must have exactly how many transitions for each input symbol?",o:["Zero","One","Two","As many as needed"],a:1,ex:"DFA is DETERMINISTIC — exactly ONE transition for each (state, symbol) pair. No missing or multiple transitions allowed."},
+  {w:"fa",q:"What is a 'dead state' (trap state) in a DFA?",o:["The start state","A state with no outgoing transitions","A non-accepting state that loops on all inputs","A state that loops only on 'a'"],a:2,ex:"A dead/trap state is a non-accepting state from which no final state can be reached. It loops on all inputs, so any string reaching it is rejected."},
+  {w:"fa",q:"Which of the following correctly reads a DFA transition table entry: δ(q0, a) = q1?",o:["In state q1 reading 'a', go to q0","In state q0 reading 'a', go to q1","In state q0 reading q1, output 'a'","Start at q0, accept 'a', end at q1"],a:1,ex:"δ(current_state, input_symbol) = next_state. So δ(q0, a) = q1 means: in state q0, reading symbol 'a', transition to state q1."},
+
+  {w:"nfa",q:"What is the key difference between an NFA and a DFA?",o:["NFA has more states than DFA","NFA can have multiple or zero transitions for the same input symbol","NFA uses a stack memory","NFA can only read binary strings"],a:1,ex:"NFA allows 0, 1, or MANY transitions for the same (state, symbol) pair, and allows λ-transitions. DFA must have exactly one transition per symbol."},
+  {w:"nfa",q:"An NFA accepts a string if:",o:["All computation paths reach a final state","At least one computation path reaches a final state","The majority of paths reach a final state","No path gets stuck"],a:1,ex:"NFA accepts if AT LEAST ONE possible computation path leads to a final state. Even if 99 paths reject, one accepting path means the string is accepted."},
+  {w:"nfa",q:"What is a λ-transition (epsilon-transition) in an NFA?",o:["A transition that reads the symbol λ","A transition that moves without consuming any input symbol","A transition that rejects the input","A transition only from the start state"],a:1,ex:"λ-transition allows the NFA to change state WITHOUT reading any input symbol. This makes NFA design easier and more flexible."},
+  {w:"nfa",q:"Which theorem states that FA, NFA, TG, and RE all describe exactly the same class of languages?",o:["Church-Turing Thesis","Pumping Lemma","Kleene's Theorem","Chomsky's Theorem"],a:2,ex:"Kleene's Theorem: A language is regular if and only if it can be described by a Regular Expression. FA = NFA = TG = RE in expressive power."},
+  {w:"nfa",q:"In the Subset Construction (NFA to DFA conversion), each DFA state represents:",o:["A single NFA state","A set of NFA states","One transition of the NFA","One symbol of the alphabet"],a:1,ex:"Subset construction: each DFA state = a SET of NFA states. If NFA has n states, DFA may have up to 2^n states (one per subset)."},
+  {w:"nfa",q:"A DFA state in Subset Construction is a FINAL state if:",o:["It contains the NFA start state","It contains any NFA final state","It contains ALL NFA final states","It is the largest subset"],a:1,ex:"A DFA state (set of NFA states) is accepting if it contains AT LEAST ONE NFA final state. Any subset containing a final NFA state becomes a DFA final state."},
+  {w:"nfa",q:"A Generalized Transition Graph (GTG) differs from a regular TG because its edges are labeled with:",o:["Single symbols only","Strings of symbols","Regular Expressions","Numbers"],a:2,ex:"GTG edges are labeled with Regular Expressions (not just symbols or strings). Used in Kleene's Theorem to convert FA → RE by state elimination."},
+  {w:"nfa",q:"When converting RE 'r+s' to an NFA using Thompson's construction, you:",o:["Create a sequence of r then s","Create a new start state with λ-transitions to both r's and s's NFA","Merge all states of r and s","Apply star to both r and s"],a:1,ex:"Union (r+s): create new start state with λ-transitions to both sub-NFAs, and new final state with λ-transitions from both sub-NFAs' final states."},
+
+  {w:"mm",q:"In a Moore Machine, the output depends on:",o:["The current state and current input","The current state ONLY","The current input ONLY","The previous state and current input"],a:1,ex:"Moore Machine: output = f(current state). Output is associated with STATES, not transitions. Each state has a fixed output value."},
+  {w:"mm",q:"In a Mealy Machine, the output is produced:",o:["When entering a state","On transitions (when reading each input symbol)","Only at final states","Only at the start state"],a:1,ex:"Mealy Machine: output is associated with TRANSITIONS. Each (state, input) pair produces an output. Output is produced as each symbol is read."},
+  {w:"mm",q:"If a Moore Machine reads a string of length 5, the output sequence has length:",o:["4","5","6","Depends on the machine"],a:2,ex:"Moore Machine output length = input length + 1. Output includes the start state's output PLUS one output per input symbol read (6 states visited for 5 inputs)."},
+  {w:"mm",q:"If a Mealy Machine reads a string of length 5, the output sequence has length:",o:["4","5","6","Depends on transitions"],a:1,ex:"Mealy Machine output length = input length. One output symbol is produced per input symbol read, exactly matching the input length."},
+  {w:"mm",q:"A Moore Machine is formally defined as which tuple?",o:["(Q, Σ, δ, λ, q0, Δ)","(Q, Σ, δ, λ, q0)","(Q, Σ, Γ, δ, q0, Z0, F)","(Q, Σ, δ, q0, F)"],a:1,ex:"Moore = (Q, Σ, δ, λ, q0) where λ: Q → Δ maps states to output symbols. No separate output alphabet needed in tuple since λ defines it."},
+  {w:"mm",q:"When converting a Moore Machine to a Mealy Machine, the output of each TRANSITION in Mealy is taken from:",o:["The source state's output in Moore","The destination state's output in Moore","The average of source and destination outputs","A new output function"],a:1,ex:"Moore→Mealy: each transition's output = the output of the DESTINATION state in Moore. The structure stays the same, output moves from states to transitions."},
+  {w:"mm",q:"Both Moore and Mealy machines recognize:",o:["Only context-free languages","Only regular languages (same as FA)","Context-sensitive languages","Recursively enumerable languages"],a:1,ex:"Moore and Mealy machines are FA with output. They recognize the same class as FA (regular languages) but additionally PRODUCE output sequences."},
+
+  {w:"rl",q:"Which of the following is TRUE about Regular Languages?",o:["They can only be finite sets of strings","They are recognized by Pushdown Automata","They are closed under union, concatenation, and Kleene star","They cannot be described by Regular Expressions"],a:2,ex:"Regular Languages are CLOSED under union, concatenation, Kleene star, complement, intersection, and reversal. These operations on regular languages always produce regular languages."},
+  {w:"rl",q:"The Pumping Lemma is used to prove that a language is:",o:["Regular","Context-Free","NOT Regular","Decidable"],a:2,ex:"Pumping Lemma proves languages are NOT regular. It cannot prove a language IS regular. It works by contradiction: assume regular, find a string that cannot be pumped."},
+  {w:"rl",q:"In the Pumping Lemma, for any string w in L with |w| ≥ p, w can be split as w = xyz where |y| ≥ 1. What does 'pumping' mean?",o:["Removing y from the string","Replacing y with a different string","Repeating y any number of times: xy^iz ∈ L for all i ≥ 0","Adding more symbols to x"],a:2,ex:"Pumping = repeating the middle part y any number of times (including zero). xy^iz must stay in L for ALL i ≥ 0. If ANY pumping leaves L, contradiction!"},
+  {w:"rl",q:"In Pumping Lemma, the constraint |xy| ≤ p means:",o:["The whole string has length at most p","x and y together are within the first p symbols","y has length at most p","x has length exactly p"],a:1,ex:"|xy| ≤ p ensures that y lies entirely within the first p symbols of w. This combined with |y| ≥ 1 means y consists of symbols in a limited region."},
+  {w:"rl",q:"Which language is NOT regular and can be proven so with the Pumping Lemma?",o:["{w | w starts with 'a'}","{aⁿbⁿ | n ≥ 1}","{w | w has even length}","(ab)*"],a:1,ex:"aⁿbⁿ requires counting and matching — FA has no memory to count. Pumping Lemma proves it: pumping the 'a' section gives unequal counts of a's and b's."},
+  {w:"rl",q:"Which of the following is a closure property of Regular Languages?",o:["If L is regular, L² (concatenation with itself) may not be regular","If L₁ and L₂ are regular, L₁ ∩ L₂ is always regular","If L is regular, its complement might not be regular","Regular languages are not closed under reversal"],a:1,ex:"Regular languages are closed under INTERSECTION. If L₁ and L₂ are both regular, L₁ ∩ L₂ is also regular. This can be proven by constructing a product DFA."},
+
+  {w:"cfg",q:"A Context-Free Grammar (CFG) is formally defined as which tuple?",o:["(Q, Σ, δ, q0, F)","(V, T, P, S)","(Q, Σ, Γ, δ, q0, Z0, F)","(Σ, Γ, δ, q0)"],a:1,ex:"CFG = (V, T, P, S): V=non-terminals (variables), T=terminals, P=productions/rules, S=start symbol. Productions are of the form A → α."},
+  {w:"cfg",q:"In a CFG, which symbols CAN be replaced using production rules?",o:["Terminals","Non-terminals","Both terminals and non-terminals","Only the start symbol"],a:1,ex:"NON-TERMINALS (variables, uppercase) are replaced using productions. TERMINALS are the actual symbols of the language — they cannot be replaced further."},
+  {w:"cfg",q:"What is a 'leftmost derivation' in a CFG?",o:["Always replace the rightmost non-terminal","Always replace the leftmost non-terminal first","Replace terminals before non-terminals","Replace the start symbol last"],a:1,ex:"Leftmost derivation: at each step, the LEFTMOST non-terminal in the current sentential form is replaced. Rightmost derivation replaces the rightmost."},
+  {w:"cfg",q:"A grammar is said to be AMBIGUOUS if:",o:["It cannot generate any string","Some string has more than one parse tree","It has more than one start symbol","It contains λ-productions"],a:1,ex:"Ambiguous grammar: at least one string has MORE THAN ONE distinct parse tree (or equivalently, more than one leftmost OR rightmost derivation)."},
+  {w:"cfg",q:"What is a 'sentential form' in a derivation?",o:["The final derived string (all terminals)","Any intermediate string containing terminals and/or non-terminals during derivation","The start symbol only","A production rule"],a:1,ex:"Sentential form: any string of terminals and non-terminals that appears during a derivation from the start symbol. The final sentential form (all terminals) is the derived string."},
+  {w:"cfg",q:"In Chomsky Normal Form (CNF), every production must be of the form:",o:["A → BC or A → a","A → BCD or A → a","A → aB or A → a","A → B or A → a"],a:0,ex:"CNF requires EVERY production to be either A → BC (two non-terminals) or A → a (one terminal). No other forms allowed. Every CFG can be converted to CNF."},
+  {w:"cfg",q:"What is the first step when converting a CFG to CNF?",o:["Eliminate unit productions","Eliminate useless symbols","Eliminate λ-productions (null productions)","Replace terminals in long rules"],a:2,ex:"Standard CNF conversion order: (1) Eliminate λ-productions, (2) Eliminate unit productions (A→B), (3) Eliminate useless symbols, (4) Convert remaining rules to CNF form."},
+  {w:"cfg",q:"A 'nullable' variable in a CFG is one that:",o:["Can only derive terminal strings","Can derive the empty string λ","Has no productions","Appears only on the right side of productions"],a:1,ex:"A variable A is nullable if A ⇒* λ (can derive the empty string in zero or more steps). Finding nullable variables is the first step in eliminating λ-productions."},
+  {w:"cfg",q:"What is a unit production in a CFG?",o:["A production with one terminal: A → a","A production of the form A → B (one non-terminal)","A production with two symbols on right side","A production for the start symbol only"],a:1,ex:"Unit production: A → B where both A and B are non-terminals. These must be eliminated in CNF conversion by substituting B's productions directly."},
+  {w:"cfg",q:"Which of the following grammars generates the language {aⁿbⁿ | n ≥ 0}?",o:["S → aSb | λ","S → ab | aabb","S → aSb | ab","S → aS | Sb"],a:0,ex:"S → aSb | λ: Base case λ gives empty string. Recursive case wraps more a's and b's: aSb → aaSbb → aaλbb = aabb. Generates equal a's and b's."},
+  {w:"cfg",q:"Regular Grammars are a SUBSET of CFGs where productions are restricted to:",o:["A → BC form only","A → aB (right-linear) or A → a form","A → BCD form","A → a only"],a:1,ex:"Right-linear regular grammar: A → aB (terminal then non-terminal) or A → a (just terminal). Regular grammars generate exactly the Regular Languages."},
+
+  {w:"pda",q:"A Pushdown Automaton (PDA) is an NFA augmented with:",o:["An infinite tape","A stack (LIFO memory)","A queue memory","Multiple read heads"],a:1,ex:"PDA = NFA + Stack. The stack provides unlimited LIFO (Last In, First Out) memory. This extra memory allows PDA to recognize context-free languages."},
+  {w:"pda",q:"A PDA is formally defined as which 7-tuple?",o:["(Q, Σ, δ, q0, F)","(Q, Σ, Γ, δ, q0, Z0, F)","(V, T, P, S)","(Q, Σ, Γ, δ, q0, B, F)"],a:1,ex:"PDA = (Q, Σ, Γ, δ, q0, Z0, F): Q=states, Σ=input alphabet, Γ=stack alphabet, δ=transitions, q0=start state, Z0=initial stack symbol, F=final states."},
+  {w:"pda",q:"In a PDA transition δ(q, a, Z) = (p, γ), what does γ represent?",o:["The input symbol to read next","The string pushed onto the stack (replacing Z)","The output symbol","The next state only"],a:1,ex:"γ is the string PUSHED onto the stack, replacing the popped symbol Z. If γ=λ, the symbol Z is popped and nothing is pushed (POP operation)."},
+  {w:"pda",q:"Which language class does a PDA recognize?",o:["Regular Languages","Context-Free Languages","Context-Sensitive Languages","Recursively Enumerable Languages"],a:1,ex:"PDA recognizes exactly the CONTEXT-FREE LANGUAGES. Every CFL has a PDA and every PDA recognizes a CFL. This is the equivalence theorem for PDA and CFG."},
+  {w:"pda",q:"To recognize {aⁿbⁿ | n ≥ 1} with a PDA, the key strategy is:",o:["Count symbols using states","Push 'a' for each 'a' read, then pop one 'a' for each 'b' read","Use two stacks","Track parity using Moore machine output"],a:1,ex:"Push each 'a' onto the stack, then pop one 'a' for each 'b'. If stack is empty exactly when input is exhausted → equal counts → accept. This is impossible with FA (no memory)."},
+  {w:"pda",q:"The theorem 'every CFG has an equivalent PDA' means:",o:["Every PDA can be converted to a CFG","Both CFG and PDA define the same class of languages","Only CFG can describe context-free languages","PDA is more powerful than CFG"],a:1,ex:"CFG ↔ PDA equivalence: both define exactly the Context-Free Languages. Every CFG can be converted to a PDA and every PDA to a CFG."},
+  {w:"pda",q:"When converting a CFG to a PDA (standard 3-state method), how many states does the resulting PDA have?",o:["One state per variable","One state per terminal","3 states: start, working, accept","Same number as the CFG has productions"],a:2,ex:"Standard CFG→PDA uses 3 states: q0 (start, push start symbol), q1 (working: apply productions or match terminals), q2 (accept when stack empty)."},
+  {w:"pda",q:"In a PDA, 'acceptance by empty stack' means the PDA accepts when:",o:["It reaches a final state","The stack is empty, regardless of state","The input is empty","Both stack is empty and in final state"],a:1,ex:"Acceptance by empty stack: PDA accepts when the stack becomes empty (regardless of current state). This is equivalent to acceptance by final state — both define the same class."},
+
+  {w:"tm",q:"A Turing Machine is formally defined as which 7-tuple?",o:["(Q, Σ, Γ, δ, q0, Z0, F)","(Q, Σ, Γ, δ, q0, B, F)","(Q, Σ, δ, q0, F)","(V, T, P, S)"],a:1,ex:"TM = (Q, Σ, Γ, δ, q0, B, F): Q=states, Σ=input alphabet, Γ=tape alphabet (Σ⊂Γ), δ=transitions, q0=start, B=blank symbol, F=final states."},
+  {w:"tm",q:"In a Turing Machine transition δ(q, X) = (p, Y, D), what does D represent?",o:["The output symbol","The direction the head moves: Left or Right","The new state only","The distance the head moves"],a:1,ex:"D = direction of head movement: L (left) or R (right). The TM reads X, writes Y, moves head in direction D, and transitions to state p."},
+  {w:"tm",q:"What does the Blank symbol (B) represent on a Turing Machine's tape?",o:["The end-of-input marker","A symbol that cannot be overwritten","An empty/uninitialized tape cell","The start of the tape"],a:2,ex:"B (blank) represents an empty cell on the tape. Initially, all tape cells beyond the input contain B. The TM can read and write B just like any other symbol."},
+  {w:"tm",q:"What class of languages does a Turing Machine recognize?",o:["Regular Languages","Context-Free Languages","Context-Sensitive Languages","Recursively Enumerable Languages"],a:3,ex:"TM recognizes RECURSIVELY ENUMERABLE languages — the largest class in Chomsky hierarchy. Any language a TM accepts is RE. Some RE languages have TMs that loop forever on rejection."},
+  {w:"tm",q:"The Church-Turing Thesis states:",o:["Every algorithm can be computed by a Finite Automaton","Any algorithm computable by any reasonable device can be computed by a Turing Machine","TM can solve all mathematical problems","TM and PDA are equivalent in power"],a:1,ex:"Church-Turing Thesis: TM defines the limits of computation. Anything computable by any reasonable computational model can be computed by some TM. It defines 'computable'."},
+  {w:"tm",q:"What is the correct Chomsky Hierarchy from LEAST to MOST powerful?",o:["Type 0 → Type 1 → Type 2 → Type 3","Type 3 → Type 2 → Type 1 → Type 0","Type 2 → Type 3 → Type 0 → Type 1","Type 1 → Type 2 → Type 3 → Type 0"],a:1,ex:"Chomsky Hierarchy: Type 3 (Regular/FA) ⊂ Type 2 (CFL/PDA) ⊂ Type 1 (CSL/LBA) ⊂ Type 0 (RE/TM). Each type is strictly more powerful than the previous."},
+  {w:"tm",q:"The INSERT subprogram in a Turing Machine:",o:["Deletes the current symbol from tape","Shifts tape content to insert a new symbol at current position","Moves the head to the start of tape","Replaces all blanks with input symbols"],a:1,ex:"INSERT shifts all tape content to the RIGHT from the current position, creating space to insert a new symbol. This is used to build more complex TM computations."},
+  {w:"tm",q:"Which of the following problems is UNDECIDABLE (no TM can solve it)?",o:["Checking if a string belongs to a regular language","Checking if a DFA accepts any string","The Halting Problem (does a TM halt on a given input?)","Checking if two DFAs are equivalent"],a:2,ex:"The Halting Problem is undecidable — no TM can always determine if an arbitrary TM halts or loops forever on a given input. Proved by Turing using diagonalization."},
+];
+
+const BADGE={fa:'bfa',nfa:'bnfa',mm:'bmm',rl:'brl',cfg:'bcfg',pda:'bpda',tm:'btm'};
+const LABEL={fa:'Week 4–5: FA & DFA',nfa:'Week 6: NFA & Kleene',mm:'Week 7: Moore & Mealy',rl:'Week 8: Regular Languages',cfg:'Week 9–11: CFG',pda:'Week 13–14: PDA',tm:'Week 15–16: Turing Machines'};
+const ABCD=['A','B','C','D'];
+
+let state={}, curFilter='all';
+
+function reset(){state={};curFilter='all';document.querySelectorAll('.tb').forEach((b,i)=>b.classList.toggle('active',i===0));render();updateStats();}
+
+function getFiltered(){
+  if(curFilter==='wrong') return QS.map((q,i)=>({...q,oi:i})).filter(q=>state[q.oi]&&!state[q.oi].correct);
+  if(curFilter==='all') return QS.map((q,i)=>({...q,oi:i}));
+  return QS.map((q,i)=>({...q,oi:i})).filter(q=>q.w===curFilter);
+}
+
+function render(){
+  const body=document.getElementById('qbody');
+  const items=getFiltered();
+  if(!items.length){body.innerHTML='<div style="text-align:center;padding:2rem;color:var(--color-text-secondary)">No questions in this filter yet.</div>';renderAK();return;}
+  let html='',lastW='';
+  items.forEach(q=>{
+    const oi=q.oi;
+    const s=state[oi];
+    if(q.w!==lastW){html+=`<div class="sh">${LABEL[q.w]}</div>`;lastW=q.w;}
+    const cc=s?(s.correct?'cc':'wc'):'';
+    html+=`<div class="qc ${cc}" id="qc${oi}">
+      <div class="qm">
+        <span class="qn">Q${oi+1}</span>
+        <span class="qbg ${BADGE[q.w]}">${{fa:'FA/DFA',nfa:'NFA/Kleene',mm:'Moore/Mealy',rl:'Reg. Languages',cfg:'CFG',pda:'PDA',tm:'Turing Machine'}[q.w]}</span>
+        ${s?(s.correct?'<i class="ti ti-circle-check" style="color:#0F6E56" aria-hidden="true"></i>':'<i class="ti ti-circle-x" style="color:#993C1D" aria-hidden="true"></i>'):''}
+      </div>
+      <div class="qtext">${q.q}</div>
+      <div class="opts">`;
+    q.o.forEach((opt,oi2)=>{
+      let cls='';
+      if(s){
+        if(oi2===q.a) cls='rok';
+        else if(oi2===s.chosen) cls='serr';
+      }
+      html+=`<button class="ob ${cls}" ${s?'disabled':''} onclick="answer(${oi},${oi2})"><span class="ol">${ABCD[oi2]}</span>${opt}</button>`;
+    });
+    html+='</div>';
+    if(s){
+      const fc=s.correct?'fok':'ferr';
+      const ic=s.correct?'ti-circle-check':'ti-circle-x';
+      html+=`<div class="fb ${fc}"><i class="ti ${ic}" aria-hidden="true"></i> ${s.correct?'Correct!':'Wrong. Correct: '+ABCD[q.a]} — ${q.ex}</div>`;
+    }
+    html+='</div>';
+  });
+  body.innerHTML=html;
+  renderAK();
+}
+
+function answer(idx,chosen){
+  const q=QS[idx];
+  state[idx]={chosen,correct:chosen===q.a};
+  updateStats();render();
+  const el=document.getElementById('qc'+idx);
+  if(el) el.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function updateStats(){
+  const total=Object.keys(state).length;
+  const ok=Object.values(state).filter(s=>s.correct).length;
+  const err=total-ok;
+  const pct=total>0?Math.round(ok/50*100):0;
+  document.getElementById('sa').textContent=total+'/50';
+  document.getElementById('sok').textContent=ok;
+  document.getElementById('serr').textContent=err;
+  document.getElementById('spct').textContent=pct+'%';
+  document.getElementById('pb').style.width=(total/50*100)+'%';
+}
+
+function renderAK(){
+  const grid=document.getElementById('akgrid');
+  let html='';
+  QS.forEach((q,i)=>{
+    const s=state[i];
+    const cls=s?(s.correct?'gok':'gerr'):'';
+    html+=`<div class="ai ${cls}"><span class="ain">Q${i+1}</span><span class="aiv">${ABCD[q.a]}</span></div>`;
+  });
+  grid.innerHTML=html;
+}
+
+function toggleAK(){
+  const b=document.getElementById('akbody');
+  const c=document.getElementById('akchev');
+  b.classList.toggle('open');
+  c.className=b.classList.contains('open')?'ti ti-chevron-up':'ti ti-chevron-down';
+}
+
+function setFilter(f,btn){
+  curFilter=f;
+  document.querySelectorAll('.tb').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
+render();updateStats();
+</script>

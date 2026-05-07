@@ -1,0 +1,286 @@
+
+<h2 class="sr-only">Theory of Automata – 50 MCQ Practice Quiz covering Weeks 1, 2, and 3</h2>
+
+<style>
+  .quiz-wrap { padding: 1.5rem 0; font-family: var(--font-sans); }
+  .quiz-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 12px; }
+  .quiz-title { font-size: 20px; font-weight: 500; color: var(--color-text-primary); }
+  .progress-bar-wrap { height: 6px; background: var(--color-background-secondary); border-radius: 99px; margin-bottom: 1.5rem; }
+  .progress-bar { height: 6px; border-radius: 99px; background: #1D9E75; transition: width 0.4s; }
+  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 1.5rem; }
+  .stat-card { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 10px 12px; text-align: center; }
+  .stat-label { font-size: 11px; color: var(--color-text-secondary); margin-bottom: 2px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .stat-val { font-size: 20px; font-weight: 500; color: var(--color-text-primary); }
+  .stat-val.correct { color: #0F6E56; }
+  .stat-val.wrong { color: #993C1D; }
+
+  .tab-row { display: flex; gap: 6px; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .tab-btn { font-size: 13px; padding: 6px 14px; border-radius: 99px; border: 0.5px solid var(--color-border-secondary); background: transparent; color: var(--color-text-secondary); cursor: pointer; }
+  .tab-btn.active { background: var(--color-background-secondary); color: var(--color-text-primary); font-weight: 500; }
+
+  .q-card { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1.25rem; margin-bottom: 1rem; background: var(--color-background-primary); }
+  .q-card.correct-card { border-color: #1D9E75; }
+  .q-card.wrong-card { border-color: #D85A30; }
+
+  .q-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+  .q-num { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); }
+  .q-badge { font-size: 11px; padding: 2px 10px; border-radius: 99px; font-weight: 500; }
+  .badge-w1 { background: #E6F1FB; color: #0C447C; }
+  .badge-w2 { background: #EEEDFE; color: #3C3489; }
+  .badge-w3 { background: #EAF3DE; color: #27500A; }
+  .badge-sets { background: #FAEEDA; color: #633806; }
+
+  .q-text { font-size: 15px; color: var(--color-text-primary); margin-bottom: 12px; line-height: 1.6; }
+  .q-code { font-family: var(--font-mono); background: var(--color-background-secondary); padding: 2px 6px; border-radius: 4px; font-size: 14px; }
+
+  .options { display: grid; gap: 6px; }
+  .opt-btn { text-align: left; padding: 10px 14px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-tertiary); background: var(--color-background-primary); color: var(--color-text-primary); font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 10px; line-height: 1.5; }
+  .opt-btn:hover:not(:disabled) { background: var(--color-background-secondary); border-color: var(--color-border-secondary); }
+  .opt-btn:disabled { cursor: default; }
+  .opt-btn.selected-correct { background: #E1F5EE; border-color: #1D9E75; color: #085041; }
+  .opt-btn.selected-wrong { background: #FAECE7; border-color: #D85A30; color: #4A1B0C; }
+  .opt-btn.reveal-correct { background: #E1F5EE; border-color: #1D9E75; color: #085041; }
+
+  .opt-letter { width: 22px; height: 22px; border-radius: 50%; border: 0.5px solid var(--color-border-secondary); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; flex-shrink: 0; }
+  .feedback { font-size: 13px; margin-top: 10px; padding: 8px 12px; border-radius: var(--border-radius-md); line-height: 1.5; }
+  .feedback.ok { background: #E1F5EE; color: #085041; }
+  .feedback.err { background: #FAECE7; color: #4A1B0C; }
+
+  .ans-key { margin-top: 2rem; border-radius: var(--border-radius-lg); border: 0.5px solid var(--color-border-tertiary); overflow: hidden; }
+  .ans-key-header { padding: 14px 18px; background: var(--color-background-secondary); font-weight: 500; font-size: 15px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
+  .ans-key-body { padding: 18px; display: none; }
+  .ans-key-body.open { display: block; }
+  .ans-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 6px; }
+  .ans-item { text-align: center; padding: 6px 4px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-tertiary); font-size: 13px; }
+  .ans-item span { display: block; }
+  .ans-num { color: var(--color-text-secondary); font-size: 11px; }
+  .ans-val { font-weight: 500; color: var(--color-text-primary); }
+  .ans-item.graded-ok { background: #E1F5EE; border-color: #1D9E75; }
+  .ans-item.graded-ok .ans-val { color: #085041; }
+  .ans-item.graded-err { background: #FAECE7; border-color: #D85A30; }
+  .ans-item.graded-err .ans-val { color: #4A1B0C; }
+
+  .result-banner { padding: 20px; border-radius: var(--border-radius-lg); margin-bottom: 1.5rem; text-align: center; border: 0.5px solid var(--color-border-tertiary); background: var(--color-background-secondary); }
+  .result-score { font-size: 36px; font-weight: 500; color: var(--color-text-primary); }
+  .result-sub { font-size: 14px; color: var(--color-text-secondary); margin-top: 4px; }
+  .result-grade { font-size: 18px; font-weight: 500; margin-top: 8px; }
+
+  .reset-btn { padding: 10px 20px; border-radius: 99px; border: 0.5px solid var(--color-border-secondary); background: transparent; color: var(--color-text-primary); cursor: pointer; font-size: 14px; }
+  .reset-btn:hover { background: var(--color-background-secondary); }
+  .section-heading { font-size: 13px; font-weight: 500; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.08em; margin: 1.5rem 0 0.75rem; }
+</style>
+
+<div class="quiz-wrap">
+  <div class="quiz-header">
+    <div class="quiz-title">Theory of Automata — 50 MCQs</div>
+    <button class="reset-btn" onclick="resetQuiz()"><i class="ti ti-refresh" aria-hidden="true"></i> Reset</button>
+  </div>
+
+  <div class="progress-bar-wrap"><div class="progress-bar" id="pbar" style="width:0%"></div></div>
+
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-label">Answered</div><div class="stat-val" id="s-ans">0/50</div></div>
+    <div class="stat-card"><div class="stat-label">Correct</div><div class="stat-val correct" id="s-ok">0</div></div>
+    <div class="stat-card"><div class="stat-label">Wrong</div><div class="stat-val wrong" id="s-err">0</div></div>
+    <div class="stat-card"><div class="stat-label">Score</div><div class="stat-val" id="s-pct">0%</div></div>
+  </div>
+
+  <div class="tab-row">
+    <button class="tab-btn active" onclick="filterQ('all',this)">All (50)</button>
+    <button class="tab-btn" onclick="filterQ('w1',this)">Week 1 – Math</button>
+    <button class="tab-btn" onclick="filterQ('w2',this)">Week 2 – Languages</button>
+    <button class="tab-btn" onclick="filterQ('w3',this)">Week 3 – RE</button>
+    <button class="tab-btn" onclick="filterQ('wrong',this)">Wrong only</button>
+  </div>
+
+  <div id="quiz-body"></div>
+
+  <div class="ans-key" id="ans-key">
+    <div class="ans-key-header" onclick="toggleAns()">
+      <span><i class="ti ti-key" aria-hidden="true"></i> Answer key</span>
+      <i class="ti ti-chevron-down" id="ans-chev" aria-hidden="true"></i>
+    </div>
+    <div class="ans-key-body" id="ans-body">
+      <div class="ans-grid" id="ans-grid"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const QS = [
+  {w:"w1",q:"What is the primary purpose of Automata Theory?",o:["To design faster processors","To study abstract machines and problems they can solve","To write efficient algorithms","To design databases"],a:1,ex:"Automata theory studies abstract machines (automata) and the computational problems they can/cannot solve."},
+  {w:"w1",q:"Who invented the Turing Machine in 1936?",o:["Noam Chomsky","John McCarthy","Alan Turing","Claude Shannon"],a:2,ex:"Alan Turing invented the Turing Machine in 1936, defining the theoretical limits of computation."},
+  {w:"w1",q:"Which of the following correctly describes a Set?",o:["An ordered list of elements that may repeat","An unordered collection of distinct objects","A sequence of characters from an alphabet","A finite list of transition rules"],a:1,ex:"A set is an unordered collection of DISTINCT (unique) objects. Order does not matter and duplicates are not allowed."},
+  {w:"w1",q:"If A = {1,2,3} and B = {3,4,5}, what is A ∩ B?",o:["{1,2,3,4,5}","{1,2}","{3}","{4,5}"],a:2,ex:"Intersection contains elements in BOTH sets. Only 3 appears in both A and B, so A ∩ B = {3}."},
+  {w:"w1",q:"If A = {1,2,3} and B = {3,4,5}, what is A ∪ B?",o:["{3}","{1,2,4,5}","{1,2,3,4,5}","{1,2,3}"],a:2,ex:"Union contains elements in A OR B. Combining both sets: {1,2,3,4,5}."},
+  {w:"w1",q:"If A = {a,b} and B = {1,2}, how many elements does A × B have?",o:["2","3","4","6"],a:2,ex:"|A × B| = |A| × |B| = 2 × 2 = 4. The pairs are (a,1),(a,2),(b,1),(b,2)."},
+  {w:"w1",q:"How many elements are in the power set of A = {x, y, z}?",o:["3","6","8","9"],a:2,ex:"|P(A)| = 2^|A| = 2³ = 8. Power set includes all subsets: ∅, {x}, {y}, {z}, {x,y}, {x,z}, {y,z}, {x,y,z}."},
+  {w:"w1",q:"Which statement about the empty set ∅ is TRUE?",o:["∅ = {0}","∅ is a subset of every set","∅ has one element","∅ is only a subset of itself"],a:1,ex:"The empty set ∅ is a subset of EVERY set. This is a fundamental property: ∅ ⊆ A for any set A."},
+  {w:"w1",q:"In automata diagrams, what do nodes (circles) represent?",o:["Input symbols","Transition rules","States","Languages"],a:2,ex:"In automata state diagrams: nodes/circles = states, directed edges/arrows = transitions."},
+  {w:"w1",q:"Which machine in the Chomsky hierarchy is the MOST powerful?",o:["Finite Automaton","Pushdown Automaton","Linear Bounded Automaton","Turing Machine"],a:3,ex:"Turing Machine is the most powerful. Hierarchy: FA < PDA < LBA < TM. TM can simulate any algorithm."},
+  {w:"w1",q:"A tree with no cycles where any two nodes are connected by exactly one path is called a:",o:["Directed graph","Complete graph","Tree","State diagram"],a:2,ex:"A tree is a connected acyclic graph. It has no cycles and any two nodes are connected by exactly one path."},
+  {w:"w1",q:"Which proof technique assumes the OPPOSITE of what you want to prove?",o:["Direct proof","Proof by induction","Proof by construction","Proof by contradiction"],a:3,ex:"Proof by contradiction: assume the negation of the claim, then derive a contradiction. Used extensively in Pumping Lemma proofs."},
+  {w:"w1",q:"De Morgan's Law states that (A ∪ B)' equals:",o:["A' ∪ B'","A ∩ B","A' ∩ B'","A ∪ B'"],a:2,ex:"De Morgan's Law: (A ∪ B)' = A' ∩ B'. 'NOT (A or B) = NOT A AND NOT B'."},
+  {w:"w1",q:"A Pushdown Automaton (PDA) is more powerful than a Finite Automaton because it has:",o:["More states","An infinite tape","A stack memory","Faster transitions"],a:2,ex:"PDA has a stack (LIFO memory structure) that FA lacks. This extra memory allows PDA to recognize context-free languages that FA cannot."},
+  {w:"w1",q:"Which of these is a correct set-builder notation for even numbers from 1 to 10?",o:["{2,4,6,8,10}","{x | x is even and 1 ≤ x ≤ 10}","Both A and B","Neither A nor B"],a:2,ex:"Both are correct! Roster notation {2,4,6,8,10} and set-builder notation {x | x is even and 1 ≤ x ≤ 10} describe the same set."},
+
+  {w:"w2",q:"What is an alphabet in formal language theory?",o:["A set of all possible words","A finite non-empty set of symbols","An infinite sequence of characters","The set of all strings over some symbol set"],a:1,ex:"An alphabet Σ is a FINITE, NON-EMPTY set of symbols. Examples: {0,1}, {a,b,c}, {0-9}."},
+  {w:"w2",q:"What is the length of the string w = 'aabba'?",o:["4","5","3","6"],a:1,ex:"|aabba| = 5. Count each symbol: a-a-b-b-a = 5 symbols."},
+  {w:"w2",q:"What is the empty string λ?",o:["A string containing only spaces","A string with zero symbols","The same as the empty language ∅","A string containing the symbol λ"],a:1,ex:"λ (lambda) is the empty string — a string with ZERO symbols. Its length |λ| = 0."},
+  {w:"w2",q:"What is the difference between ∅ and {λ}?",o:["They are the same thing","∅ has no strings; {λ} has one string (the empty string)","∅ contains the empty string; {λ} contains nothing","Both contain zero elements"],a:1,ex:"∅ is the empty LANGUAGE with no strings at all. {λ} is a language with exactly ONE string: the empty string λ."},
+  {w:"w2",q:"What does Σ* include that Σ⁺ does NOT?",o:["All strings of length 1","All strings of even length","The empty string λ","All strings of odd length"],a:2,ex:"Σ* = all strings including λ (zero-length). Σ⁺ = all non-empty strings = Σ* - {λ}. The key difference is λ."},
+  {w:"w2",q:"If Σ = {a,b}, how many strings of length exactly 2 are in Σ*?",o:["2","3","4","8"],a:2,ex:"Length-2 strings over {a,b}: aa, ab, ba, bb = 4 strings. In general |Σ|^n strings of length n."},
+  {w:"w2",q:"If w = 'abcd', what is w^R (reverse of w)?",o:["abcd","dcba","abdc","cdab"],a:1,ex:"Reverse writes the string backwards. (abcd)^R = dcba."},
+  {w:"w2",q:"A string where w = w^R is called a:",o:["Suffix","Prefix","Palindrome","Substring"],a:2,ex:"A palindrome is a string that reads the same forwards and backwards. Example: 'abba', 'aba', 'aa'."},
+  {w:"w2",q:"If L = {a, bb}, what is L²?",o:["{aa, abb, bba, bbbb}","{a, bb, aabb}","{aa, bb}","{abba}"],a:0,ex:"L² = all concatenations of two strings from L: a·a=aa, a·bb=abb, bb·a=bba, bb·bb=bbbb. So L² = {aa, abb, bba, bbbb}."},
+  {w:"w2",q:"Which of the following is NOT in Σ⁺ where Σ = {0,1}?",o:["0","01","11","λ"],a:3,ex:"Σ⁺ contains all NON-EMPTY strings. λ is the empty string, so λ ∉ Σ⁺. All other options are valid non-empty strings."},
+  {w:"w2",q:"What does concatenation of strings u = 'ab' and v = 'cd' produce?",o:["cdab","abcd","abdc","acbd"],a:1,ex:"Concatenation joins strings end-to-end. uv = 'ab' + 'cd' = 'abcd'. Note: concatenation is NOT commutative (uv ≠ vu usually)."},
+  {w:"w2",q:"Which correctly describes a 'prefix' of string 'abc'?",o:["Only 'abc' itself","Any substring starting from position 2","Strings obtained by removing symbols from the END: λ, a, ab, abc","Strings obtained by removing symbols from the START"],a:2,ex:"Prefixes of 'abc' are obtained by removing zero or more symbols from the END: λ, a, ab, abc."},
+  {w:"w2",q:"Which of the following is a recursive definition of L = {aⁿ | n ≥ 1}?",o:["Base: λ ∈ L; Recursive: if w ∈ L then aw ∈ L","Base: a ∈ L; Recursive: if w ∈ L then wa ∈ L","Base: aa ∈ L; Recursive: if w ∈ L then w ∈ L","Base: a ∈ L; Recursive: if w ∈ L then wb ∈ L"],a:1,ex:"Base: a ∈ L (starts with one 'a'). Recursive: if w ∈ L then wa ∈ L (append another 'a'). Generates: a, aa, aaa, ..."},
+  {w:"w2",q:"What is w³ if w = 'ab'?",o:["aaa","ababab","abababab","aabb"],a:1,ex:"w³ means w concatenated 3 times. (ab)³ = ab·ab·ab = ababab. Note: w⁰ = λ for any string w."},
+  {w:"w2",q:"If L₁ = {a,b} and L₂ = {c,d}, what is L₁L₂ (concatenation of languages)?",o:["{a,b,c,d}","{ac,ad,bc,bd}","{ab,cd}","{abcd}"],a:1,ex:"Language concatenation: every string from L₁ followed by every string from L₂. ac, ad, bc, bd = {ac, ad, bc, bd}."},
+  {w:"w2",q:"The Kleene star L* of any language L always includes:",o:["At least one non-empty string","The empty string λ","All strings of length 1","Only strings in L"],a:1,ex:"L* includes L⁰ = {λ}. So L* ALWAYS includes λ regardless of what L contains. Even ∅* = {λ}."},
+
+  {w:"w3",q:"What does the Regular Expression 'a*' represent?",o:["{a, aa, aaa, ...}","{λ, a, aa, aaa, ...}","{λ}","All strings ending with 'a'"],a:1,ex:"a* = zero or more 'a's = {λ, a, aa, aaa, ...}. Kleene star always includes λ (zero copies)."},
+  {w:"w3",q:"What is the difference between a* and a⁺?",o:["a* excludes λ; a⁺ includes λ","a* includes λ; a⁺ excludes λ","They represent the same language","a* is for single symbols only"],a:1,ex:"a* = {λ, a, aa, ...} includes λ. a⁺ = {a, aa, aaa, ...} excludes λ. a⁺ = aa* = a*a."},
+  {w:"w3",q:"Which RE correctly represents all strings over {a,b} that start with 'a'?",o:["(a+b)*a","a(a+b)*","(a+b)*a(a+b)*","a*(a+b)"],a:1,ex:"Start with 'a' then anything: a(a+b)*. The (a+b)* part allows any combination of a's and b's (including none) after the initial 'a'."},
+  {w:"w3",q:"What is the correct order of operator precedence in RE (highest to lowest)?",o:["Union, Concatenation, Star","Star, Union, Concatenation","Concatenation, Star, Union","Star, Concatenation, Union"],a:3,ex:"Precedence (highest first): Star (*) > Concatenation (·) > Union (+). Same idea as BODMAS: star binds tightest."},
+  {w:"w3",q:"What language does the RE (a+b)* represent?",o:["All strings starting with a or b","All strings of even length over {a,b}","All strings over {a,b} including λ","Only strings of a's and b's alternating"],a:2,ex:"(a+b)* = all possible strings over {a,b} including λ. Since (a+b) matches any single symbol, the star repeats for any length."},
+  {w:"w3",q:"What language does 'b*ab*ab*' describe?",o:["All strings with at least two a's","All strings with exactly two a's","All strings with exactly two b's","All strings with at most two a's"],a:1,ex:"b*ab*ab* = zero or more b's, then exactly one 'a', then zero or more b's, then exactly one 'a', then zero or more b's = exactly two a's total."},
+  {w:"w3",q:"Which is the RE for 'all binary strings ending in 0'?",o:["(0+1)*1","0(0+1)*","(0+1)*0","0*(0+1)"],a:2,ex:"Must end in '0': (0+1)*0. Any binary string (0+1)* followed by the required final '0'."},
+  {w:"w3",q:"What does ab* mean (applying correct precedence)?",o:["(ab)*","a(b*)","(a+b)*","a then zero or more b's"],o:["(ab)*","a(b*) = a then zero or more b's","(a+b)* = everything","Zero or one ab"],a:1,ex:"Precedence: * binds first to 'b', giving b*. Then concatenation: a·(b*). So ab* = a followed by zero or more b's = {a, ab, abb, abbb, ...}."},
+  {w:"w3",q:"The RE (ab)* represents:",o:["{a, ab, abb, ...}","{λ, a, b, ab, ...}","{λ, ab, abab, ababab, ...}","{ab}"],a:2,ex:"(ab)* = zero or more copies of 'ab' as a unit. Generates: λ (zero copies), ab (one), abab (two), ababab (three), etc."},
+  {w:"w3",q:"Which RE represents strings over {a,b} with at least one 'a'?",o:["a*","a+(a+b)*","(a+b)*a(a+b)*","(a+b)+"],a:2,ex:"(a+b)*a(a+b)* = anything, then at least one 'a', then anything. This guarantees at least one 'a' appears somewhere."},
+  {w:"w3",q:"What does the RE 'r?' represent?",o:["One or more r's","Zero or more r's","Zero or one r","Exactly two r's"],a:2,ex:"r? = r + λ = zero or one occurrence of r. Example: a? = {λ, a}."},
+  {w:"w3",q:"Which algebraic property states r + r = r?",o:["Commutative property","Associative property","Idempotent property","Distributive property"],a:2,ex:"Idempotent law: r + r = r. In set terms: L ∪ L = L. Adding the same language twice gives the same language."},
+  {w:"w3",q:"What is the language of the RE (aa)*(bb)*?",o:["All strings over {a,b}","Strings with even a's followed by even b's","Strings with equal a's and b's","All strings of even length"],a:1,ex:"(aa)* = even number of a's (0,2,4,...). (bb)* = even number of b's. Concatenated: even a's THEN even b's. Example: λ, aa, bb, aabb, aaaa, aabb, aaabbb etc."},
+  {w:"w3",q:"What is ∅* equal to?",o:["∅","∅ itself","{λ}","All strings"],a:2,ex:"∅* = {λ}. Star of the empty language = language containing only the empty string. This is because L⁰ = {λ} for any L, including ∅."},
+  {w:"w3",q:"Which RE describes strings where every 'a' is immediately followed by 'b'?",o:["(a+b)*","(b+ab)*","a*b*","(ab+ba)*"],a:1,ex:"(b+ab)* = either a standalone 'b', or 'a' always paired with 'b' after it. Allows: λ, b, ab, bab, abab, bbab etc. but never standalone 'a'."},
+  {w:"w3",q:"What language does (a+b)*ab(a+b)* represent?",o:["Strings ending with ab","Strings starting with ab","All strings containing 'ab' as a substring","Strings with exactly one 'ab'"],a:2,ex:"(a+b)*ab(a+b)* = anything, then 'ab' must appear, then anything. This forces 'ab' to appear as a substring somewhere in the string."},
+  {w:"w3",q:"What is the EVEN-EVEN language?",o:["Strings with even total length","Strings with even number of a's OR even number of b's","Strings with even number of a's AND even number of b's","Strings where a's and b's alternate"],a:2,ex:"EVEN-EVEN = all strings over {a,b} where BOTH the count of a's is even AND the count of b's is even. Both conditions must hold simultaneously."},
+  {w:"w3",q:"Which of the following strings is in the EVEN-EVEN language over {a,b}?",o:["ab (1a, 1b)","aab (2a, 1b)","aabb (2a, 2b)","aba (2a, 1b)"],a:2,ex:"aabb has 2 a's (even) and 2 b's (even). Both counts are even → it belongs to EVEN-EVEN. 'ab' has 1a,1b (both odd). 'aab' has 2a,1b (one odd). 'aba' has 2a,1b."},
+  {w:"w3",q:"The RE (r*)* simplifies to:",o:["r+","rr*","r*","r²"],a:2,ex:"Star of star = star: (r*)* = r*. Taking Kleene star twice gives the same result since repeating any combination of repetitions is still just repetitions."},
+  {w:"w3",q:"Which RE represents strings of ODD length over {a,b}?",o:["((a+b)(a+b))*","(a+b)((a+b)(a+b))*","(a+b)+","(a+b)²"],a:1,ex:"(a+b)((a+b)(a+b))* = one symbol followed by pairs of symbols. Length = 1 + 2k for k≥0 = odd numbers (1,3,5,...)."},
+  {w:"w3",q:"The formal definition of RE is built using which THREE base cases?",o:["a, ab, a*","∅, λ, and each symbol a ∈ Σ","r+s, rs, and r*","Only symbols from the alphabet"],a:1,ex:"Formal RE definition base cases: (1) ∅ representing empty language, (2) λ representing {λ}, (3) each symbol a ∈ Σ representing {a}. Everything else is built from these."},
+  {w:"w3",q:"What does the distributive law r(s+t) = rs + rt mean in RE?",o:["r union s equals r concatenated with t","Concatenation distributes over union","Union distributes over concatenation","Star distributes over union"],a:1,ex:"Distributive law: r(s+t) = rs + rt. Concatenation distributes over union, just like multiplication distributes over addition in arithmetic."},
+];
+
+let state = {};
+let filter = 'all';
+
+function resetQuiz() {
+  state = {};
+  filter = 'all';
+  document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', i===0));
+  render();
+  updateStats();
+}
+
+function getFiltered() {
+  if (filter === 'wrong') return QS.filter((_,i) => state[i] !== undefined && state[i].correct === false);
+  if (filter === 'all') return QS.map((q,i) => ({...q, origIdx: i}));
+  return QS.map((q,i) => ({...q, origIdx: i})).filter(q => q.w === filter);
+}
+
+function render() {
+  const body = document.getElementById('quiz-body');
+  const items = getFiltered();
+  if (items.length === 0) {
+    body.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--color-text-secondary)">No questions in this filter yet.</div>';
+    renderAnsKey();
+    return;
+  }
+  let html = '';
+  let lastW = '';
+  items.forEach((q, fi) => {
+    const origIdx = q.origIdx !== undefined ? q.origIdx : fi;
+    const s = state[origIdx];
+    const wLabel = {w1:'Week 1 — Math & Sets',w2:'Week 2 — Languages',w3:'Week 3 — Regular Expressions'}[q.w];
+    const badgeClass = {w1:'badge-w1',w2:'badge-w2',w3:'badge-w3'}[q.w];
+    if (q.w !== lastW) {
+      html += `<div class="section-heading">${wLabel}</div>`;
+      lastW = q.w;
+    }
+    const cardClass = s ? (s.correct ? 'correct-card' : 'wrong-card') : '';
+    html += `<div class="q-card ${cardClass}" id="qcard-${origIdx}">
+      <div class="q-meta">
+        <span class="q-num">Q${origIdx+1}</span>
+        <span class="q-badge ${badgeClass}">${{w1:'Week 1',w2:'Week 2',w3:'Week 3'}[q.w]}</span>
+        ${s ? (s.correct ? '<i class="ti ti-circle-check" style="color:#0F6E56" aria-hidden="true"></i>' : '<i class="ti ti-circle-x" style="color:#993C1D" aria-hidden="true"></i>') : ''}
+      </div>
+      <div class="q-text">${q.q}</div>
+      <div class="options">`;
+    q.o.forEach((opt, oi) => {
+      let cls = '';
+      let dis = s ? 'disabled' : '';
+      if (s) {
+        if (oi === q.a) cls = 'reveal-correct';
+        else if (oi === s.chosen) cls = 'selected-wrong';
+      }
+      html += `<button class="opt-btn ${cls}" ${dis} onclick="answer(${origIdx},${oi})">
+        <span class="opt-letter">${['A','B','C','D'][oi]}</span>${opt}
+      </button>`;
+    });
+    html += '</div>';
+    if (s) {
+      const fClass = s.correct ? 'ok' : 'err';
+      const icon = s.correct ? 'ti-circle-check' : 'ti-circle-x';
+      html += `<div class="feedback ${fClass}"><i class="ti ${icon}" aria-hidden="true"></i> ${s.correct ? 'Correct!' : `Wrong. Correct answer: ${['A','B','C','D'][q.a]}`} — ${q.ex}</div>`;
+    }
+    html += '</div>';
+  });
+  body.innerHTML = html;
+  renderAnsKey();
+}
+
+function answer(idx, chosen) {
+  const q = QS[idx];
+  const correct = chosen === q.a;
+  state[idx] = {chosen, correct};
+  updateStats();
+  render();
+  const el = document.getElementById('qcard-'+idx);
+  if (el) el.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+function updateStats() {
+  const total = Object.keys(state).length;
+  const ok = Object.values(state).filter(s => s.correct).length;
+  const err = total - ok;
+  const pct = total > 0 ? Math.round(ok/50*100) : 0;
+  document.getElementById('s-ans').textContent = total+'/50';
+  document.getElementById('s-ok').textContent = ok;
+  document.getElementById('s-err').textContent = err;
+  document.getElementById('s-pct').textContent = pct+'%';
+  document.getElementById('pbar').style.width = (total/50*100)+'%';
+}
+
+function renderAnsKey() {
+  const grid = document.getElementById('ans-grid');
+  let html = '';
+  QS.forEach((q,i) => {
+    const s = state[i];
+    let cls = '';
+    if (s) cls = s.correct ? 'graded-ok' : 'graded-err';
+    html += `<div class="ans-item ${cls}"><span class="ans-num">Q${i+1}</span><span class="ans-val">${['A','B','C','D'][q.a]}</span></div>`;
+  });
+  grid.innerHTML = html;
+}
+
+function toggleAns() {
+  const body = document.getElementById('ans-body');
+  const chev = document.getElementById('ans-chev');
+  body.classList.toggle('open');
+  chev.className = body.classList.contains('open') ? 'ti ti-chevron-up' : 'ti ti-chevron-down';
+}
+
+function filterQ(f, btn) {
+  filter = f;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
+render();
+updateStats();
+</script>

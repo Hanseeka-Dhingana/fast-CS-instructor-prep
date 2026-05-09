@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Structures & Algorithms — Instructor Test</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=JetBrains+Mono:wght@400;600&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c10;
+    --surface: #111420;
+    --card: #161b28;
+    --border: #1e2740;
+    --accent: #f0a500;
+    --accent2: #3b82f6;
+    --correct: #10b981;
+    --wrong: #ef4444;
+    --text: #e8eaf0;
+    --muted: #6b7a99;
+    --mono: 'JetBrains Mono', monospace;
+    --serif: 'Crimson Pro', Georgia, serif;
+    --display: 'Playfair Display', Georgia, serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ─────────────────────────────────── */
+  header {
+    background: linear-gradient(135deg, #0d1117 0%, #101828 60%, #0a0c10 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 48px 0 36px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 50% -10%, rgba(240,165,0,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid rgba(240,165,0,0.4);
+    padding: 4px 14px;
+    border-radius: 2px;
+    margin-bottom: 18px;
+  }
+  header h1 {
+    font-family: var(--display);
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: -1px;
+    line-height: 1.1;
+  }
+  header h1 span { color: var(--accent); }
+  header p {
+    margin-top: 12px;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+
+  /* ── META BAR ───────────────────────────────── */
+  .meta-bar {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+    margin-top: 28px;
+    padding: 0 20px;
+  }
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .meta-item .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  /* ── PROGRESS ───────────────────────────────── */
+  .progress-wrap {
+    max-width: 860px;
+    margin: 28px auto 0;
+    padding: 0 24px;
+  }
+  .progress-bar-bg {
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 2px;
+    transition: width 0.5s ease;
+  }
+  .progress-text {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+
+  /* ── MAIN ───────────────────────────────────── */
+  main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* ── SECTION LABEL ──────────────────────────── */
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 48px 0 20px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── QUESTION CARD ──────────────────────────── */
+  .q-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 28px 30px;
+    margin-bottom: 18px;
+    position: relative;
+    transition: border-color 0.2s;
+  }
+  .q-card:hover { border-color: #2a3452; }
+  .q-card.answered-correct { border-color: var(--correct); }
+  .q-card.answered-wrong   { border-color: var(--wrong); }
+
+  .q-num {
+    position: absolute;
+    top: -1px; left: -1px;
+    background: var(--accent);
+    color: #000;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 5px 0 6px 0;
+  }
+
+  .q-topic {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+    padding-left: 2px;
+  }
+
+  .q-text {
+    font-size: 16.5px;
+    color: #d8dce8;
+    margin-bottom: 20px;
+    padding-top: 8px;
+    line-height: 1.6;
+  }
+  .q-text code {
+    font-family: var(--mono);
+    font-size: 13.5px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 1px 6px;
+    color: #93c5fd;
+  }
+
+  /* ── OPTIONS ────────────────────────────────── */
+  .options { display: grid; gap: 8px; }
+  .opt {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 11px 16px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s;
+    background: rgba(255,255,255,0.02);
+  }
+  .opt:hover { background: rgba(255,255,255,0.05); border-color: #2d3a5c; }
+  .opt.selected-correct { background: rgba(16,185,129,0.08); border-color: var(--correct); }
+  .opt.selected-wrong   { background: rgba(239,68,68,0.08);  border-color: var(--wrong); }
+  .opt.reveal-correct   { background: rgba(16,185,129,0.05); border-color: rgba(16,185,129,0.4); }
+
+  .opt-letter {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    width: 20px;
+    flex-shrink: 0;
+    padding-top: 1px;
+  }
+  .opt.selected-correct .opt-letter { color: var(--correct); }
+  .opt.selected-wrong   .opt-letter { color: var(--wrong); }
+  .opt.reveal-correct   .opt-letter { color: var(--correct); }
+
+  .opt-text { font-size: 15.5px; color: #c5cad8; line-height: 1.5; }
+
+  /* ── RESULT TAG ─────────────────────────────── */
+  .result-tag {
+    display: none;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 3px;
+    margin-top: 14px;
+  }
+  .result-tag.show { display: inline-block; }
+  .result-tag.correct { background: rgba(16,185,129,0.15); color: var(--correct); }
+  .result-tag.wrong   { background: rgba(239,68,68,0.15);  color: var(--wrong); }
+
+  /* ── CONTROLS ───────────────────────────────── */
+  .controls {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 48px;
+  }
+  .btn {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 12px 28px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #000;
+  }
+  .btn-primary:hover { background: #f5b82e; transform: translateY(-1px); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--border);
+  }
+  .btn-secondary:hover { color: var(--text); border-color: #3a4466; }
+
+  /* ── SCOREBOARD ─────────────────────────────── */
+  #scoreboard {
+    display: none;
+    text-align: center;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 48px 32px;
+    margin-top: 40px;
+  }
+  #scoreboard h2 {
+    font-family: var(--display);
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .score-ring {
+    width: 130px; height: 130px;
+    border-radius: 50%;
+    border: 4px solid var(--border);
+    margin: 28px auto;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+    position: relative;
+    font-family: var(--mono);
+  }
+  .score-ring .score-val {
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .score-ring .score-denom {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  .grade-label {
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 2px;
+    color: var(--accent2);
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  /* ── TIMER ──────────────────────────────────── */
+  .timer-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,12,16,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+  }
+  #timer-display { color: var(--accent); font-weight: 600; }
+  #timer-display.warning { color: var(--wrong); animation: pulse 1s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+
+  /* ── RESPONSIVE ─────────────────────────────── */
+  @media(max-width:600px){
+    .q-card { padding: 22px 18px; }
+    header h1 { font-size: 1.8rem; }
+    .meta-bar { gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="badge">Instructor Job Test · 2026</div>
+  <h1>Data Structures &amp;<br><span>Algorithms</span></h1>
+  <p>50 Multiple Choice Questions · All Core Topics</p>
+  <div class="meta-bar">
+    <div class="meta-item"><span class="dot"></span>50 Questions</div>
+    <div class="meta-item"><span class="dot" style="background:var(--accent2)"></span>60 Minutes</div>
+    <div class="meta-item"><span class="dot" style="background:var(--correct)"></span>2 Marks Each</div>
+    <div class="meta-item"><span class="dot" style="background:#a78bfa"></span>Total: 100 Marks</div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="prog"></div></div>
+    <div class="progress-text">
+      <span id="prog-text">0 / 50 answered</span>
+      <span id="prog-pct">0%</span>
+    </div>
+  </div>
+</header>
+
+<div class="timer-bar">
+  <span>⏱ Time Remaining</span>
+  <span id="timer-display">60:00</span>
+  <span id="answered-count">Answered: 0</span>
+</div>
+
+<main>
+
+<!-- ════════════════════════════════════════════════ -->
+<!-- SECTION 1 · ARRAYS & STRINGS -->
+<!-- ════════════════════════════════════════════════ -->
+<div class="section-label">01 · Arrays &amp; Strings</div>
+
+<div class="q-card" id="q1">
+  <div class="q-num">01</div>
+  <div class="q-topic">Arrays</div>
+  <div class="q-text">What is the time complexity of accessing an element at a given index in an array?</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,1,'A')"><span class="opt-letter">A</span><span class="opt-text">O(n)</span></div>
+    <div class="opt" onclick="pick(this,1,'B')"><span class="opt-letter">B</span><span class="opt-text">O(log n)</span></div>
+    <div class="opt" onclick="pick(this,1,'C')"><span class="opt-letter">C</span><span class="opt-text">O(1)</span></div>
+    <div class="opt" onclick="pick(this,1,'D')"><span class="opt-letter">D</span><span class="opt-text">O(n²)</span></div>
+  </div>
+  <div class="result-tag" id="rt1"></div>
+</div>
+
+<div class="q-card" id="q2">
+  <div class="q-num">02</div>
+  <div class="q-topic">Arrays</div>
+  <div class="q-text">Which operation is most expensive (worst case) for a dynamic array when the underlying buffer is full?</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,2,'A')"><span class="opt-letter">A</span><span class="opt-text">Random access</span></div>
+    <div class="opt" onclick="pick(this,2,'B')"><span class="opt-letter">B</span><span class="opt-text">Append (push_back)</span></div>
+    <div class="opt" onclick="pick(this,2,'C')"><span class="opt-letter">C</span><span class="opt-text">Read last element</span></div>
+    <div class="opt" onclick="pick(this,2,'D')"><span class="opt-letter">D</span><span class="opt-text">Update element by index</span></div>
+  </div>
+  <div class="result-tag" id="rt2"></div>
+</div>
+
+<div class="q-card" id="q3">
+  <div class="q-num">03</div>
+  <div class="q-topic">Strings</div>
+  <div class="q-text">The KMP (Knuth-Morris-Pratt) string-matching algorithm runs in:</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,3,'A')"><span class="opt-letter">A</span><span class="opt-text">O(n × m)</span></div>
+    <div class="opt" onclick="pick(this,3,'B')"><span class="opt-letter">B</span><span class="opt-text">O(n + m)</span></div>
+    <div class="opt" onclick="pick(this,3,'C')"><span class="opt-letter">C</span><span class="opt-text">O(n log m)</span></div>
+    <div class="opt" onclick="pick(this,3,'D')"><span class="opt-letter">D</span><span class="opt-text">O(m log n)</span></div>
+  </div>
+  <div class="result-tag" id="rt3"></div>
+</div>
+
+<!-- ════════════════════════════════════════════════ -->
+<!-- SECTION 2 · LINKED LISTS -->
+<!-- ════════════════════════════════════════════════ -->
+<div class="section-label">02 · Linked Lists</div>
+
+<div class="q-card" id="q4">
+  <div class="q-num">04</div>
+  <div class="q-topic">Linked List</div>
+  <div class="q-text">What is the time complexity of inserting a node at the beginning of a singly linked list?</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,4,'A')"><span class="opt-letter">A</span><span class="opt-text">O(n)</span></div>
+    <div class="opt" onclick="pick(this,4,'B')"><span class="opt-letter">B</span><span class="opt-text">O(log n)</span></div>
+    <div class="opt" onclick="pick(this,4,'C')"><span class="opt-letter">C</span><span class="opt-text">O(1)</span></div>
+    <div class="opt" onclick="pick(this,4,'D')"><span class="opt-letter">D</span><span class="opt-text">O(n log n)</span></div>
+  </div>
+  <div class="result-tag" id="rt4"></div>
+</div>
+
+<div class="q-card" id="q5">
+  <div class="q-num">05</div>
+  <div class="q-topic">Linked List</div>
+  <div class="q-text">Floyd's cycle-detection algorithm (tortoise and hare) uses how many pointers?</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,5,'A')"><span class="opt-letter">A</span><span class="opt-text">1</span></div>
+    <div class="opt" onclick="pick(this,5,'B')"><span class="opt-letter">B</span><span class="opt-text">2</span></div>
+    <div class="opt" onclick="pick(this,5,'C')"><span class="opt-letter">C</span><span class="opt-text">3</span></div>
+    <div class="opt" onclick="pick(this,5,'D')"><span class="opt-letter">D</span><span class="opt-text">n</span></div>
+  </div>
+  <div class="result-tag" id="rt5"></div>
+</div>
+
+<div class="q-card" id="q6">
+  <div class="q-num">06</div>
+  <div class="q-topic">Linked List</div>
+  <div class="q-text">A doubly linked list node contains:</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,6,'A')"><span class="opt-letter">A</span><span class="opt-text">Data and one pointer (next)</span></div>
+    <div class="opt" onclick="pick(this,6,'B')"><span class="opt-letter">B</span><span class="opt-text">Data and two pointers (next, prev)</span></div>
+    <div class="opt" onclick="pick(this,6,'C')"><span class="opt-letter">C</span><span class="opt-text">Data and three pointers</span></div>
+    <div class="opt" onclick="pick(this,6,'D')"><span class="opt-letter">D</span><span class="opt-text">Only pointers, no data</span></div>
+  </div>
+  <div class="result-tag" id="rt6"></div>
+</div>
+
+<!-- ════════════════════════════════════════════════ -->
+<!-- SECTION 3 · STACKS & QUEUES -->
+<!-- ════════════════════════════════════════════════ -->
+<div class="section-label">03 · Stacks &amp; Queues</div>
+
+<div class="q-card" id="q7">
+  <div class="q-num">07</div>
+  <div class="q-topic">Stack</div>
+  <div class="q-text">Which data structure follows the LIFO (Last In, First Out) principle?</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,7,'A')"><span class="opt-letter">A</span><span class="opt-text">Queue</span></div>
+    <div class="opt" onclick="pick(this,7,'B')"><span class="opt-letter">B</span><span class="opt-text">Priority Queue</span></div>
+    <div class="opt" onclick="pick(this,7,'C')"><span class="opt-letter">C</span><span class="opt-text">Stack</span></div>
+    <div class="opt" onclick="pick(this,7,'D')"><span class="opt-letter">D</span><span class="opt-text">Deque</span></div>
+  </div>
+  <div class="result-tag" id="rt7"></div>
+</div>
+
+<div class="q-card" id="q8">
+  <div class="q-num">08</div>
+  <div class="q-topic">Queue</div>
+  <div class="q-text">A circular queue of size <code>n</code> can hold at most how many elements?</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,8,'A')"><span class="opt-letter">A</span><span class="opt-text">n + 1</span></div>
+    <div class="opt" onclick="pick(this,8,'B')"><span class="opt-letter">B</span><span class="opt-text">n</span></div>
+    <div class="opt" onclick="pick(this,8,'C')"><span class="opt-letter">C</span><span class="opt-text">n − 1</span></div>
+    <div class="opt" onclick="pick(this,8,'D')"><span class="opt-letter">D</span><span class="opt-text">2n</span></div>
+  </div>
+  <div class="result-tag" id="rt8"></div>
+</div>
+
+<div class="q-card" id="q9">
+  <div class="q-num">09</div>
+  <div class="q-topic">Stack Application</div>
+  <div class="q-text">Which algorithm uses a stack to evaluate postfix (Reverse Polish Notation) expressions?</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,9,'A')"><span class="opt-letter">A</span><span class="opt-text">Shunting-yard algorithm</span></div>
+    <div class="opt" onclick="pick(this,9,'B')"><span class="opt-letter">B</span><span class="opt-text">Standard postfix evaluation algorithm</span></div>
+    <div class="opt" onclick="pick(this,9,'C')"><span class="opt-letter">C</span><span class="opt-text">Dijkstra's algorithm</span></div>
+    <div class="opt" onclick="pick(this,9,'D')"><span class="opt-letter">D</span><span class="opt-text">BFS traversal</span></div>
+  </div>
+  <div class="result-tag" id="rt9"></div>
+</div>
+
+<!-- ════════════════════════════════════════════════ -->
+<!-- SECTION 4 · TREES -->
+<!-- ════════════════════════════════════════════════ -->
+<div class="section-label">04 · Trees</div>
+
+<div class="q-card" id="q10">
+  <div class="q-num">10</div>
+  <div class="q-topic">Binary Tree</div>
+  <div class="q-text">In an in-order traversal of a Binary Search Tree (BST), nodes are visited in:</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,10,'A')"><span class="opt-letter">A</span><span class="opt-text">Random order</span></div>
+    <div class="opt" onclick="pick(this,10,'B')"><span class="opt-letter">B</span><span class="opt-text">Descending order</span></div>
+    <div class="opt" onclick="pick(this,10,'C')"><span class="opt-letter">C</span><span class="opt-text">Ascending (sorted) order</span></div>
+    <div class="opt" onclick="pick(this,10,'D')"><span class="opt-letter">D</span><span class="opt-text">Level-by-level order</span></div>
+  </div>
+  <div class="result-tag" id="rt10"></div>
+</div>
+
+<div class="q-card" id="q11">
+  <div class="q-num">11</div>
+  <div class="q-topic">AVL Tree</div>
+  <div class="q-text">The balance factor of a node in an AVL tree is defined as:</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,11,'A')"><span class="opt-letter">A</span><span class="opt-text">height(left subtree) + height(right subtree)</span></div>
+    <div class="opt" onclick="pick(this,11,'B')"><span class="opt-letter">B</span><span class="opt-text">height(left subtree) − height(right subtree)</span></div>
+    <div class="opt" onclick="pick(this,11,'C')"><span class="opt-letter">C</span><span class="opt-text">height(right subtree) / height(left subtree)</span></div>
+    <div class="opt" onclick="pick(this,11,'D')"><span class="opt-letter">D</span><span class="opt-text">Number of children − 2</span></div>
+  </div>
+  <div class="result-tag" id="rt11"></div>
+</div>
+
+<div class="q-card" id="q12">
+  <div class="q-num">12</div>
+  <div class="q-topic">Heap</div>
+  <div class="q-text">In a max-heap, the element at the root is always:</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,12,'A')"><span class="opt-letter">A</span><span class="opt-text">The smallest element</span></div>
+    <div class="opt" onclick="pick(this,12,'B')"><span class="opt-letter">B</span><span class="opt-text">The median element</span></div>
+    <div class="opt" onclick="pick(this,12,'C')"><span class="opt-letter">C</span><span class="opt-text">The largest element</span></div>
+    <div class="opt" onclick="pick(this,12,'D')"><span class="opt-letter">D</span><span class="opt-text">A random element</span></div>
+  </div>
+  <div class="result-tag" id="rt12"></div>
+</div>
+
+<div class="q-card" id="q13">
+  <div class="q-num">13</div>
+  <div class="q-topic">Tree Traversal</div>
+  <div class="q-text">Which traversal visits the root node LAST?</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,13,'A')"><span class="opt-letter">A</span><span class="opt-text">Pre-order</span></div>
+    <div class="opt" onclick="pick(this,13,'B')"><span class="opt-letter">B</span><span class="opt-text">In-order</span></div>
+    <div class="opt" onclick="pick(this,13,'C')"><span class="opt-letter">C</span><span class="opt-text">Post-order</span></div>
+    <div class="opt" onclick="pick(this,13,'D')"><span class="opt-letter">D</span><span class="opt-text">Level-order (BFS)</span></div>
+  </div>
+  <div class="result-tag" id="rt13"></div>
+</div>
+
+<div class="q-card" id="q14">
+  <div class="q-num">14</div>
+  <div class="q-topic">Red-Black Tree</div>
+  <div class="q-text">Which of the following is NOT a property of a Red-Black Tree?</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,14,'A')"><span class="opt-letter">A</span><span class="opt-text">Every node is either red or black</span></div>
+    <div class="opt" onclick="pick(this,14,'B')"><span class="opt-letter">B</span><span class="opt-text">The root is always black</span></div>
+    <div class="opt" onclick="pick(this,14,'C')"><span class="opt-letter">C</span><span class="opt-text">Red nodes can have red children</span></div>
+    <div class="opt" onclick="pick(this,14,'D')"><span class="opt-letter">D</span><span class="opt-text">All paths from root to null leaves have the same black-node count</span></div>
+  </div>
+  <div class="result-tag" id="rt14"></div>
+</div>
+
+<!-- ════════════════════════════════════════════════ -->
+<!-- SECTION 5 · GRAPHS -->
+<!-- ════════════════════════════════════════════════ -->
+<div class="section-label">05 · Graphs</div>
+
+<div class="q-card" id="q15">
+  <div class="q-num">15</div>
+  <div class="q-topic">Graph Traversal</div>
+  <div class="q-text">Which data structure is used internally by Breadth-First Search (BFS)?</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,15,'A')"><span class="opt-letter">A</span><span class="opt-text">Stack</span></div>
+    <div class="opt" onclick="pick(this,15,'B')"><span class="opt-letter">B</span><span class="opt-text">Queue</span></div>
+    <div class="opt" onclick="pick(this,15,'C')"><span class="opt-letter">C</span><span class="opt-text">Priority Queue</span></div>
+    <div class="opt" onclick="pick(this,15,'D')"><span class="opt-letter">D</span><span class="opt-text">Hash Table</span></div>
+  </div>
+  <div class="result-tag" id="rt15"></div>
+</div>
+
+<div class="q-card" id="q16">
+  <div class="q-num">16</div>
+  <div class="q-topic">Shortest Path</div>
+  <div class="q-text">Dijkstra's algorithm fails when the graph contains:</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,16,'A')"><span class="opt-letter">A</span><span class="opt-text">Self-loops</span></div>
+    <div class="opt" onclick="pick(this,16,'B')"><span class="opt-letter">B</span><span class="opt-text">Negative-weight edges</span></div>
+    <div class="opt" onclick="pick(this,16,'C')"><span class="opt-letter">C</span><span class="opt-text">Disconnected components</span></div>
+    <div class="opt" onclick="pick(this,16,'D')"><span class="opt-letter">D</span><span class="opt-text">Undirected edges</span></div>
+  </div>
+  <div class="result-tag" id="rt16"></div>
+</div>
+
+<div class="q-card" id="q17">
+  <div class="q-num">17</div>
+  <div class="q-topic">MST</div>
+  <div class="q-text">Kruskal's algorithm for Minimum Spanning Tree works by:</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,17,'A')"><span class="opt-letter">A</span><span class="opt-text">Always adding the cheapest edge that doesn't form a cycle</span></div>
+    <div class="opt" onclick="pick(this,17,'B')"><span class="opt-letter">B</span><span class="opt-text">Starting from a vertex and growing the tree greedily</span></div>
+    <div class="opt" onclick="pick(this,17,'C')"><span class="opt-letter">C</span><span class="opt-text">Removing the most expensive edges first</span></div>
+    <div class="opt" onclick="pick(this,17,'D')"><span class="opt-letter">D</span><span class="opt-text">Running BFS from every vertex</span></div>
+  </div>
+  <div class="result-tag" id="rt17"></div>
+</div>
+
+<div class="q-card" id="q18">
+  <div class="q-num">18</div>
+  <div class="q-topic">Graph Representation</div>
+  <div class="q-text">For a sparse graph with V vertices and E edges, which representation is most space-efficient?</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,18,'A')"><span class="opt-letter">A</span><span class="opt-text">Adjacency matrix</span></div>
+    <div class="opt" onclick="pick(this,18,'B')"><span class="opt-letter">B</span><span class="opt-text">Adjacency list</span></div>
+    <div class="opt" onclick="pick(this,18,'C')"><span class="opt-letter">C</span><span class="opt-text">Incidence matrix</span></div>
+    <div class="opt" onclick="pick(this,18,'D')"><span class="opt-letter">D</span><span class="opt-text">Edge set only</span></div>
+  </div>
+  <div class="result-tag" id="rt18"></div>
+</div>
+
+<div class="q-card" id="q19">
+  <div class="q-num">19</div>
+  <div class="q-topic">Topological Sort</div>
+  <div class="q-text">Topological sorting is only possible on a:</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,19,'A')"><span class="opt-letter">A</span><span class="opt-text">Directed Acyclic Graph (DAG)</span></div>
+    <div class="opt" onclick="pick(this,19,'B')"><span class="opt-letter">B</span><span class="opt-text">Undirected graph</span></div>
+    <div class="opt" onclick="pick(this,19,'C')"><span class="opt-letter">C</span><span class="opt-text">Directed graph with cycles</span></div>
+    <div class="opt" onclick="pick(this,19,'D')"><span class="opt-letter">D</span><span class="opt-text">Complete graph</span></div>
+  </div>
+  <div class="result-tag" id="rt19"></div>
+</div>
+
+<!-- ════════════════════════════════════════════════ -->
+<!-- SECTION 6 · HASHING -->
+<!-- ════════════════════════════════════════════════ -->
+<div class="section-label">06 · Hashing</div>
+
+<div class="q-card" id="q20">
+  <div class="q-num">20</div>
+  <div class="q-topic">Hash Table</div>
+  <div class="q-text">What is the average-case time complexity for search in a hash table?</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,20,'A')"><span class="opt-letter">A</span><span class="opt-text">O(n)</span></div>
+    <div class="opt" onclick="pick(this,20,'B')"><span class="opt-letter">B</span><span class="opt-text">O(log n)</span></div>
+    <div class="opt" onclick="pick(this,20,'C')"><span class="opt-letter">C</span><span class="opt-text">O(1)</span></div>
+    <div class="opt" onclick="pick(this,20,'D')"><span class="opt-letter">D</span><span class="opt-text">O(n log n)</span></div>
+  </div>
+  <div class="result-tag" id="rt20"></div>
+</div>
+
+<div class="q-card" id="q21">
+  <div class="q-num">21</div>
+  <div class="q-topic">Collision Resolution</div>
+  <div class="q-text">Open addressing and separate chaining are techniques used to handle:</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,21,'A')"><span class="opt-letter">A</span><span class="opt-text">Tree rotations</span></div>
+    <div class="opt" onclick="pick(this,21,'B')"><span class="opt-letter">B</span><span class="opt-text">Hash collisions</span></div>
+    <div class="opt" onclick="pick(this,21,'C')"><span class="opt-letter">C</span><span class="opt-text">Graph cycles</span></div>
+    <div class="opt" onclick="pick(this,21,'D')"><span class="opt-letter">D</span><span class="opt-text">Stack overflow</span></div>
+  </div>
+  <div class="result-tag" id="rt21"></div>
+</div>
+
+<div class="q-card" id="q22">
+  <div class="q-num">22</div>
+  <div class="q-topic">Load Factor</div>
+  <div class="q-text">The load factor of a hash table is defined as:</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,22,'A')"><span class="opt-letter">A</span><span class="opt-text">Table size / number of elements</span></div>
+    <div class="opt" onclick="pick(this,22,'B')"><span class="opt-letter">B</span><span class="opt-text">Number of elements / table size</span></div>
+    <div class="opt" onclick="pick(this,22,'C')"><span class="opt-letter">C</span><span class="opt-text">Number of collisions / table size</span></div>
+    <div class="opt" onclick="pick(this,22,'D')"><span class="opt-letter">D</span><span class="opt-text">Table size × number of elements</span></div>
+  </div>
+  <div class="result-tag" id="rt22"></div>
+</div>
+
+<!-- ════════════════════════════════════════════════ -->
+<!-- SECTION 7 · SORTING -->
+<!-- ════════════════════════════════════════════════ -->
+<div class="section-label">07 · Sorting Algorithms</div>
+
+<div class="q-card" id="q23">
+  <div class="q-num">23</div>
+  <div class="q-topic">Sorting</div>
+  <div class="q-text">Which sorting algorithm has the best worst-case time complexity?</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,23,'A')"><span class="opt-letter">A</span><span class="opt-text">Quick Sort</span></div>
+    <div class="opt" onclick="pick(this,23,'B')"><span class="opt-letter">B</span><span class="opt-text">Bubble Sort</span></div>
+    <div class="opt" onclick="pick(this,23,'C')"><span class="opt-letter">C</span><span class="opt-text">Merge Sort</span></div>
+    <div class="opt" onclick="pick(this,23,'D')"><span class="opt-letter">D</span><span class="opt-text">Selection Sort</span></div>
+  </div>
+  <div class="result-tag" id="rt23"></div>
+</div>
+
+<div class="q-card" id="q24">
+  <div class="q-num">24</div>
+  <div class="q-topic">Sorting</div>
+  <div class="q-text">Which sorting algorithm is NOT comparison-based and can sort in O(n)?</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,24,'A')"><span class="opt-letter">A</span><span class="opt-text">Heap Sort</span></div>
+    <div class="opt" onclick="pick(this,24,'B')"><span class="opt-letter">B</span><span class="opt-text">Counting Sort</span></div>
+    <div class="opt" onclick="pick(this,24,'C')"><span class="opt-letter">C</span><span class="opt-text">Tim Sort</span></div>
+    <div class="opt" onclick="pick(this,24,'D')"><span class="opt-letter">D</span><span class="opt-text">Quick Sort</span></div>
+  </div>
+  <div class="result-tag" id="rt24"></div>
+</div>
+
+<div class="q-card" id="q25">
+  <div class="q-num">25</div>
+  <div class="q-topic">Sorting</div>
+  <div class="q-text">Quick Sort uses which algorithmic paradigm?</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,25,'A')"><span class="opt-letter">A</span><span class="opt-text">Dynamic Programming</span></div>
+    <div class="opt" onclick="pick(this,25,'B')"><span class="opt-letter">B</span><span class="opt-text">Greedy</span></div>
+    <div class="opt" onclick="pick(this,25,'C')"><span class="opt-letter">C</span><span class="opt-text">Divide and Conquer</span></div>
+    <div class="opt" onclick="pick(this,25,'D')"><span class="opt-letter">D</span><span class="opt-text">Backtracking</span></div>
+  </div>
+  <div class="result-tag" id="rt25"></div>
+</div>
+
+<div class="q-card" id="q26">
+  <div class="q-num">26</div>
+  <div class="q-topic">Stability</div>
+  <div class="q-text">Which of the following sorting algorithms is STABLE?</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,26,'A')"><span class="opt-letter">A</span><span class="opt-text">Heap Sort</span></div>
+    <div class="opt" onclick="pick(this,26,'B')"><span class="opt-letter">B</span><span class="opt-text">Quick Sort (standard)</span></div>
+    <div class="opt" onclick="pick(this,26,'C')"><span class="opt-letter">C</span><span class="opt-text">Selection Sort</span></div>
+    <div class="opt" onclick="pick(this,26,'D')"><span class="opt-letter">D</span><span class="opt-text">Merge Sort</span></div>
+  </div>
+  <div class="result-tag" id="rt26"></div>
+</div>
+
+<!-- ════════════════════════════════════════════════ -->
+<!-- SECTION 8 · SEARCHING -->
+<!-- ════════════════════════════════════════════════ -->
+<div class="section-label">08 · Searching Algorithms</div>
+
+<div class="q-card" id="q27">
+  <div class="q-num">27</div>
+  <div class="q-topic">Binary Search</div>
+  <div class="q-text">Binary search requires the input array to be:</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,27,'A')"><span class="opt-letter">A</span><span class="opt-text">Unsorted</span></div>
+    <div class="opt" onclick="pick(this,27,'B')"><span class="opt-letter">B</span><span class="opt-text">Sorted</span></div>
+    <div class="opt" onclick="pick(this,27,'C')"><span class="opt-letter">C</span><span class="opt-text">Stored in a linked list</span></div>
+    <div class="opt" onclick="pick(this,27,'D')"><span class="opt-letter">D</span><span class="opt-text">A hash table</span></div>
+  </div>
+  <div class="result-tag" id="rt27"></div>
+</div>
+
+<div class="q-card" id="q28">
+  <div class="q-num">28</div>
+  <div class="q-topic">Binary Search</div>
+  <div class="q-text">What is the time complexity of binary search on an array of n elements?</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,28,'A')"><span class="opt-letter">A</span><span class="opt-text">O(n)</span></div>
+    <div class="opt" onclick="pick(this,28,'B')"><span class="opt-letter">B</span><span class="opt-text">O(n²)</span></div>
+    <div class="opt" onclick="pick(this,28,'C')"><span class="opt-letter">C</span><span class="opt-text">O(log n)</span></div>
+    <div class="opt" onclick="pick(this,28,'D')"><span class="opt-letter">D</span><span class="opt-text">O(1)</span></div>
+  </div>
+  <div class="result-tag" id="rt28"></div>
+</div>
+
+<!-- ════════════════════════════════════════════════ -->
+<!-- SECTION 9 · DYNAMIC PROGRAMMING -->
+<!-- ════════════════════════════════════════════════ -->
+<div class="section-label">09 · Dynamic Programming</div>
+
+<div class="q-card" id="q29">
+  <div class="q-num">29</div>
+  <div class="q-topic">DP Concepts</div>
+  <div class="q-text">Dynamic programming is applicable when a problem has which two key properties?</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,29,'A')"><span class="opt-letter">A</span><span class="opt-text">Optimal substructure and overlapping subproblems</span></div>
+    <div class="opt" onclick="pick(this,29,'B')"><span class="opt-letter">B</span><span class="opt-text">Greedy choice and independence</span></div>
+    <div class="opt" onclick="pick(this,29,'C')"><span class="opt-letter">C</span><span class="opt-text">Divide and independence</span></div>
+    <div class="opt" onclick="pick(this,29,'D')"><span class="opt-letter">D</span><span class="opt-text">Sorting and searching</span></div>
+  </div>
+  <div class="result-tag" id="rt29"></div>
+</div>
+
+<div class="q-card" id="q30">
+  <div class="q-num">30</div>
+  <div class="q-topic">Knapsack Problem</div>
+  <div class="q-text">The 0/1 Knapsack problem with n items and capacity W has a DP time complexity of:</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,30,'A')"><span class="opt-letter">A</span><span class="opt-text">O(n log W)</span></div>
+    <div class="opt" onclick="pick(this,30,'B')"><span class="opt-letter">B</span><span class="opt-text">O(n × W)</span></div>
+    <div class="opt" onclick="pick(this,30,'C')"><span class="opt-letter">C</span><span class="opt-text">O(2ⁿ)</span></div>
+    <div class="opt" onclick="pick(this,30,'D')"><span class="opt-letter">D</span><span class="opt-text">O(n²)</span></div>
+  </div>
+  <div class="result-tag" id="rt30"></div>
+</div>
+
+<div class="q-card" id="q31">
+  <div class="q-num">31</div>
+  <div class="q-topic">DP Classic</div>
+  <div class="q-text">The Longest Common Subsequence (LCS) of two strings of length m and n can be found in:</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,31,'A')"><span class="opt-letter">A</span><span class="opt-text">O(m + n)</span></div>
+    <div class="opt" onclick="pick(this,31,'B')"><span class="opt-letter">B</span><span class="opt-text">O(m × n)</span></div>
+    <div class="opt" onclick="pick(this,31,'C')"><span class="opt-letter">C</span><span class="opt-text">O(m log n)</span></div>
+    <div class="opt" onclick="pick(this,31,'D')"><span class="opt-letter">D</span><span class="opt-text">O(2ⁿ)</span></div>
+  </div>
+  <div class="result-tag" id="rt31"></div>
+</div>
+
+<!-- ════════════════════════════════════════════════ -->
+<!-- SECTION 10 · GREEDY ALGORITHMS -->
+<!-- ════════════════════════════════════════════════ -->
+<div class="section-label">10 · Greedy Algorithms</div>
+
+<div class="q-card" id="q32">
+  <div class="q-num">32</div>
+  <div class="q-topic">Greedy</div>
+  <div class="q-text">Huffman coding is a greedy algorithm used for:</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,32,'A')"><span class="opt-letter">A</span><span class="opt-text">Graph colouring</span></div>
+    <div class="opt" onclick="pick(this,32,'B')"><span class="opt-letter">B</span><span class="opt-text">Lossless data compression</span></div>
+    <div class="opt" onclick="pick(this,32,'C')"><span class="opt-letter">C</span><span class="opt-text">Sorting integers</span></div>
+    <div class="opt" onclick="pick(this,32,'D')"><span class="opt-letter">D</span><span class="opt-text">Finding shortest paths</span></div>
+  </div>
+  <div class="result-tag" id="rt32"></div>
+</div>
+
+<div class="q-card" id="q33">
+  <div class="q-num">33</div>
+  <div class="q-topic">Greedy</div>
+  <div class="q-text">A greedy algorithm always:</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,33,'A')"><span class="opt-letter">A</span><span class="opt-text">Explores all possible solutions</span></div>
+    <div class="opt" onclick="pick(this,33,'B')"><span class="opt-letter">B</span><span class="opt-text">Makes the locally optimal choice at each step</span></div>
+    <div class="opt" onclick="pick(this,33,'C')"><span class="opt-letter">C</span><span class="opt-text">Uses memoization to store results</span></div>
+    <div class="opt" onclick="pick(this,33,'D')"><span class="opt-letter">D</span><span class="opt-text">Backtracks when a choice is wrong</span></div>
+  </div>
+  <div class="result-tag" id="rt33"></div>
+</div>
+
+<!-- ════════════════════════════════════════════════ -->
+<!-- SECTION 11 · RECURSION & BACKTRACKING -->
+<!-- ════════════════════════════════════════════════ -->
+<div class="section-label">11 · Recursion &amp; Backtracking</div>
+
+<div class="q-card" id="q34">
+  <div class="q-num">34</div>
+  <div class="q-topic">Recursion</div>
+  <div class="q-text">What happens if a recursive function has no base case?</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,34,'A')"><span class="opt-letter">A</span><span class="opt-text">It returns 0</span></div>
+    <div class="opt" onclick="pick(this,34,'B')"><span class="opt-letter">B</span><span class="opt-text">It runs infinitely, causing a stack overflow</span></div>
+    <div class="opt" onclick="pick(this,34,'C')"><span class="opt-letter">C</span><span class="opt-text">It terminates after n calls</span></div>
+    <div class="opt" onclick="pick(this,34,'D')"><span class="opt-letter">D</span><span class="opt-text">The compiler catches the error at compile time</span></div>
+  </div>
+  <div class="result-tag" id="rt34"></div>
+</div>
+
+<div class="q-card" id="q35">
+  <div class="q-num">35</div>
+  <div class="q-topic">Backtracking</div>
+  <div class="q-text">The N-Queens problem is classically solved using:</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,35,'A')"><span class="opt-letter">A</span><span class="opt-text">Dynamic Programming</span></div>
+    <div class="opt" onclick="pick(this,35,'B')"><span class="opt-letter">B</span><span class="opt-text">Greedy Algorithm</span></div>
+    <div class="opt" onclick="pick(this,35,'C')"><span class="opt-letter">C</span><span class="opt-text">Backtracking</span></div>
+    <div class="opt" onclick="pick(this,35,'D')"><span class="opt-letter">D</span><span class="opt-text">Divide and Conquer</span></div>
+  </div>
+  <div class="result-tag" id="rt35"></div>
+</div>
+
+<!-- ════════════════════════════════════════════════ -->
+<!-- SECTION 12 · COMPLEXITY ANALYSIS -->
+<!-- ════════════════════════════════════════════════ -->
+<div class="section-label">12 · Complexity Analysis</div>
+
+<div class="q-card" id="q36">
+  <div class="q-num">36</div>
+  <div class="q-topic">Big-O</div>
+  <div class="q-text">Which notation describes the upper bound (worst-case) of an algorithm's complexity?</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,36,'A')"><span class="opt-letter">A</span><span class="opt-text">Ω (Omega)</span></div>
+    <div class="opt" onclick="pick(this,36,'B')"><span class="opt-letter">B</span><span class="opt-text">Θ (Theta)</span></div>
+    <div class="opt" onclick="pick(this,36,'C')"><span class="opt-letter">C</span><span class="opt-text">O (Big-O)</span></div>
+    <div class="opt" onclick="pick(this,36,'D')"><span class="opt-letter">D</span><span class="opt-text">o (little-o)</span></div>
+  </div>
+  <div class="result-tag" id="rt36"></div>
+</div>
+
+<div class="q-card" id="q37">
+  <div class="q-num">37</div>
+  <div class="q-topic">Space Complexity</div>
+  <div class="q-text">Merge Sort has a space complexity of:</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,37,'A')"><span class="opt-letter">A</span><span class="opt-text">O(1)</span></div>
+    <div class="opt" onclick="pick(this,37,'B')"><span class="opt-letter">B</span><span class="opt-text">O(log n)</span></div>
+    <div class="opt" onclick="pick(this,37,'C')"><span class="opt-letter">C</span><span class="opt-text">O(n)</span></div>
+    <div class="opt" onclick="pick(this,37,'D')"><span class="opt-letter">D</span><span class="opt-text">O(n²)</span></div>
+  </div>
+  <div class="result-tag" id="rt37"></div>
+</div>
+
+<div class="q-card" id="q38">
+  <div class="q-num">38</div>
+  <div class="q-topic">Amortized Analysis</div>
+  <div class="q-text">The amortized time complexity of a single push operation on a dynamic array is:</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,38,'A')"><span class="opt-letter">A</span><span class="opt-text">O(n)</span></div>
+    <div class="opt" onclick="pick(this,38,'B')"><span class="opt-letter">B</span><span class="opt-text">O(log n)</span></div>
+    <div class="opt" onclick="pick(this,38,'C')"><span class="opt-letter">C</span><span class="opt-text">O(1)</span></div>
+    <div class="opt" onclick="pick(this,38,'D')"><span class="opt-letter">D</span><span class="opt-text">O(n log n)</span></div>
+  </div>
+  <div class="result-tag" id="rt38"></div>
+</div>
+
+<!-- ════════════════════════════════════════════════ -->
+<!-- SECTION 13 · ADVANCED DATA STRUCTURES -->
+<!-- ════════════════════════════════════════════════ -->
+<div class="section-label">13 · Advanced Data Structures</div>
+
+<div class="q-card" id="q39">
+  <div class="q-num">39</div>
+  <div class="q-topic">Trie</div>
+  <div class="q-text">A Trie (prefix tree) is most efficiently used for:</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,39,'A')"><span class="opt-letter">A</span><span class="opt-text">Storing integers</span></div>
+    <div class="opt" onclick="pick(this,39,'B')"><span class="opt-letter">B</span><span class="opt-text">Auto-complete and prefix matching on strings</span></div>
+    <div class="opt" onclick="pick(this,39,'C')"><span class="opt-letter">C</span><span class="opt-text">Finding shortest paths</span></div>
+    <div class="opt" onclick="pick(this,39,'D')"><span class="opt-letter">D</span><span class="opt-text">Sorting floating-point numbers</span></div>
+  </div>
+  <div class="result-tag" id="rt39"></div>
+</div>
+
+<div class="q-card" id="q40">
+  <div class="q-num">40</div>
+  <div class="q-topic">Segment Tree</div>
+  <div class="q-text">A Segment Tree supports range-query and point-update operations in:</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,40,'A')"><span class="opt-letter">A</span><span class="opt-text">O(1)</span></div>
+    <div class="opt" onclick="pick(this,40,'B')"><span class="opt-letter">B</span><span class="opt-text">O(n)</span></div>
+    <div class="opt" onclick="pick(this,40,'C')"><span class="opt-letter">C</span><span class="opt-text">O(log n)</span></div>
+    <div class="opt" onclick="pick(this,40,'D')"><span class="opt-letter">D</span><span class="opt-text">O(n log n)</span></div>
+  </div>
+  <div class="result-tag" id="rt40"></div>
+</div>
+
+<div class="q-card" id="q41">
+  <div class="q-num">41</div>
+  <div class="q-topic">Disjoint Set</div>
+  <div class="q-text">The Union-Find (Disjoint Set Union) data structure with path compression and union-by-rank performs operations in nearly:</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,41,'A')"><span class="opt-letter">A</span><span class="opt-text">O(n)</span></div>
+    <div class="opt" onclick="pick(this,41,'B')"><span class="opt-letter">B</span><span class="opt-text">O(log n)</span></div>
+    <div class="opt" onclick="pick(this,41,'C')"><span class="opt-letter">C</span><span class="opt-text">O(α(n)) — nearly O(1) amortized</span></div>
+    <div class="opt" onclick="pick(this,41,'D')"><span class="opt-letter">D</span><span class="opt-text">O(n²)</span></div>
+  </div>
+  <div class="result-tag" id="rt41"></div>
+</div>
+
+<!-- ════════════════════════════════════════════════ -->
+<!-- SECTION 14 · ALGORITHM PARADIGMS -->
+<!-- ════════════════════════════════════════════════ -->
+<div class="section-label">14 · Algorithm Paradigms &amp; Miscellaneous</div>
+
+<div class="q-card" id="q42">
+  <div class="q-num">42</div>
+  <div class="q-topic">Divide &amp; Conquer</div>
+  <div class="q-text">Which of the following is a classic Divide and Conquer algorithm?</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,42,'A')"><span class="opt-letter">A</span><span class="opt-text">Prim's MST</span></div>
+    <div class="opt" onclick="pick(this,42,'B')"><span class="opt-letter">B</span><span class="opt-text">Merge Sort</span></div>
+    <div class="opt" onclick="pick(this,42,'C')"><span class="opt-letter">C</span><span class="opt-text">Bellman-Ford</span></div>
+    <div class="opt" onclick="pick(this,42,'D')"><span class="opt-letter">D</span><span class="opt-text">Counting Sort</span></div>
+  </div>
+  <div class="result-tag" id="rt42"></div>
+</div>
+
+<div class="q-card" id="q43">
+  <div class="q-num">43</div>
+  <div class="q-topic">Two Pointers</div>
+  <div class="q-text">The two-pointer technique is commonly used to solve problems like:</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,43,'A')"><span class="opt-letter">A</span><span class="opt-text">Finding a pair with a given sum in a sorted array in O(n)</span></div>
+    <div class="opt" onclick="pick(this,43,'B')"><span class="opt-letter">B</span><span class="opt-text">Building a hash table</span></div>
+    <div class="opt" onclick="pick(this,43,'C')"><span class="opt-letter">C</span><span class="opt-text">Topological sorting</span></div>
+    <div class="opt" onclick="pick(this,43,'D')"><span class="opt-letter">D</span><span class="opt-text">Balancing AVL trees</span></div>
+  </div>
+  <div class="result-tag" id="rt43"></div>
+</div>
+
+<div class="q-card" id="q44">
+  <div class="q-num">44</div>
+  <div class="q-topic">Sliding Window</div>
+  <div class="q-text">The sliding window technique is best suited for problems involving:</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,44,'A')"><span class="opt-letter">A</span><span class="opt-text">Tree rotations</span></div>
+    <div class="opt" onclick="pick(this,44,'B')"><span class="opt-letter">B</span><span class="opt-text">Contiguous subarrays or substrings</span></div>
+    <div class="opt" onclick="pick(this,44,'C')"><span class="opt-letter">C</span><span class="opt-text">Minimum spanning trees</span></div>
+    <div class="opt" onclick="pick(this,44,'D')"><span class="opt-letter">D</span><span class="opt-text">Graph cycle detection</span></div>
+  </div>
+  <div class="result-tag" id="rt44"></div>
+</div>
+
+<div class="q-card" id="q45">
+  <div class="q-num">45</div>
+  <div class="q-topic">NP Complexity</div>
+  <div class="q-text">The Travelling Salesman Problem (TSP) belongs to which complexity class?</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,45,'A')"><span class="opt-letter">A</span><span class="opt-text">P</span></div>
+    <div class="opt" onclick="pick(this,45,'B')"><span class="opt-letter">B</span><span class="opt-text">NP-Hard</span></div>
+    <div class="opt" onclick="pick(this,45,'C')"><span class="opt-letter">C</span><span class="opt-text">O(n log n)</span></div>
+    <div class="opt" onclick="pick(this,45,'D')"><span class="opt-letter">D</span><span class="opt-text">BFS class</span></div>
+  </div>
+  <div class="result-tag" id="rt45"></div>
+</div>
+
+<div class="q-card" id="q46">
+  <div class="q-num">46</div>
+  <div class="q-topic">Master Theorem</div>
+  <div class="q-text">The recurrence T(n) = 2T(n/2) + O(n) corresponds to (using Master Theorem):</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,46,'A')"><span class="opt-letter">A</span><span class="opt-text">O(n)</span></div>
+    <div class="opt" onclick="pick(this,46,'B')"><span class="opt-letter">B</span><span class="opt-text">O(n log n)</span></div>
+    <div class="opt" onclick="pick(this,46,'C')"><span class="opt-letter">C</span><span class="opt-text">O(n²)</span></div>
+    <div class="opt" onclick="pick(this,46,'D')"><span class="opt-letter">D</span><span class="opt-text">O(log n)</span></div>
+  </div>
+  <div class="result-tag" id="rt46"></div>
+</div>
+
+<div class="q-card" id="q47">
+  <div class="q-num">47</div>
+  <div class="q-topic">B-Tree</div>
+  <div class="q-text">B-Trees are primarily used in:</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,47,'A')"><span class="opt-letter">A</span><span class="opt-text">In-memory sorting</span></div>
+    <div class="opt" onclick="pick(this,47,'B')"><span class="opt-letter">B</span><span class="opt-text">Database and file system indexing</span></div>
+    <div class="opt" onclick="pick(this,47,'C')"><span class="opt-letter">C</span><span class="opt-text">Huffman coding trees</span></div>
+    <div class="opt" onclick="pick(this,47,'D')"><span class="opt-letter">D</span><span class="opt-text">String pattern matching</span></div>
+  </div>
+  <div class="result-tag" id="rt47"></div>
+</div>
+
+<div class="q-card" id="q48">
+  <div class="q-num">48</div>
+  <div class="q-topic">Graph — Bellman-Ford</div>
+  <div class="q-text">Bellman-Ford algorithm can detect:</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,48,'A')"><span class="opt-letter">A</span><span class="opt-text">Positive weight cycles</span></div>
+    <div class="opt" onclick="pick(this,48,'B')"><span class="opt-letter">B</span><span class="opt-text">Negative weight cycles</span></div>
+    <div class="opt" onclick="pick(this,48,'C')"><span class="opt-letter">C</span><span class="opt-text">Minimum spanning trees</span></div>
+    <div class="opt" onclick="pick(this,48,'D')"><span class="opt-letter">D</span><span class="opt-text">Euler paths</span></div>
+  </div>
+  <div class="result-tag" id="rt48"></div>
+</div>
+
+<div class="q-card" id="q49">
+  <div class="q-num">49</div>
+  <div class="q-topic">Stack Application</div>
+  <div class="q-text">Which problem is solved using a monotonic stack?</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,49,'A')"><span class="opt-letter">A</span><span class="opt-text">Binary search on sorted data</span></div>
+    <div class="opt" onclick="pick(this,49,'B')"><span class="opt-letter">B</span><span class="opt-text">Next Greater Element</span></div>
+    <div class="opt" onclick="pick(this,49,'C')"><span class="opt-letter">C</span><span class="opt-text">Huffman encoding</span></div>
+    <div class="opt" onclick="pick(this,49,'D')"><span class="opt-letter">D</span><span class="opt-text">Matrix multiplication</span></div>
+  </div>
+  <div class="result-tag" id="rt49"></div>
+</div>
+
+<div class="q-card" id="q50">
+  <div class="q-num">50</div>
+  <div class="q-topic">Fibonacci — Memoization</div>
+  <div class="q-text">Computing the nth Fibonacci number naively (without memoization) has time complexity:</div>
+  <div class="options">
+    <div class="opt" onclick="pick(this,50,'A')"><span class="opt-letter">A</span><span class="opt-text">O(n)</span></div>
+    <div class="opt" onclick="pick(this,50,'B')"><span class="opt-letter">B</span><span class="opt-text">O(n²)</span></div>
+    <div class="opt" onclick="pick(this,50,'C')"><span class="opt-letter">C</span><span class="opt-text">O(2ⁿ)</span></div>
+    <div class="opt" onclick="pick(this,50,'D')"><span class="opt-letter">D</span><span class="opt-text">O(log n)</span></div>
+  </div>
+  <div class="result-tag" id="rt50"></div>
+</div>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <button class="btn btn-primary" onclick="submitAll()">Submit All Answers</button>
+  <button class="btn btn-secondary" onclick="resetAll()">Reset</button>
+</div>
+
+<!-- SCOREBOARD -->
+<div id="scoreboard">
+  <h2>Exam Complete</h2>
+  <div class="score-ring">
+    <div class="score-val" id="score-val">0</div>
+    <div class="score-denom">/ 50</div>
+  </div>
+  <div class="grade-label" id="grade-label"></div>
+  <p style="color:var(--muted);font-family:var(--mono);font-size:13px;margin-top:16px;">
+    Marks: <span id="marks-val" style="color:var(--text)">0</span> / 100
+  </p>
+</div>
+
+</main>
+
+<script>
+// ── ANSWER KEY ──────────────────────────────────────────────────────────────
+const answers = {
+  1:'C', 2:'B', 3:'B', 4:'C', 5:'B',
+  6:'B', 7:'C', 8:'C', 9:'B', 10:'C',
+  11:'B', 12:'C', 13:'C', 14:'C', 15:'B',
+  16:'B', 17:'A', 18:'B', 19:'A', 20:'C',
+  21:'B', 22:'B', 23:'C', 24:'B', 25:'C',
+  26:'D', 27:'B', 28:'C', 29:'A', 30:'B',
+  31:'B', 32:'B', 33:'B', 34:'B', 35:'C',
+  36:'C', 37:'C', 38:'C', 39:'B', 40:'C',
+  41:'C', 42:'B', 43:'A', 44:'B', 45:'B',
+  46:'B', 47:'B', 48:'B', 49:'B', 50:'C'
+};
+
+const selected = {};
+let submitted = false;
+let timerInterval;
+let secondsLeft = 60 * 60;
+
+// ── TIMER ───────────────────────────────────────────────────────────────────
+function startTimer() {
+  timerInterval = setInterval(() => {
+    secondsLeft--;
+    const m = String(Math.floor(secondsLeft / 60)).padStart(2, '0');
+    const s = String(secondsLeft % 60).padStart(2, '0');
+    const el = document.getElementById('timer-display');
+    el.textContent = m + ':' + s;
+    if (secondsLeft <= 300) el.classList.add('warning');
+    if (secondsLeft <= 0) { clearInterval(timerInterval); submitAll(); }
+  }, 1000);
+}
+startTimer();
+
+// ── PICK ─────────────────────────────────────────────────────────────────────
+function pick(el, qNum, letter) {
+  if (submitted) return;
+  const card = document.getElementById('q' + qNum);
+  card.querySelectorAll('.opt').forEach(o => o.classList.remove('selected-correct','selected-wrong','reveal-correct'));
+  el.classList.add('selected-correct'); // highlight chosen (neutral)
+  selected[qNum] = letter;
+  updateProgress();
+}
+
+function updateProgress() {
+  const n = Object.keys(selected).length;
+  document.getElementById('prog').style.width = (n / 50 * 100) + '%';
+  document.getElementById('prog-text').textContent = n + ' / 50 answered';
+  document.getElementById('prog-pct').textContent = Math.round(n / 50 * 100) + '%';
+  document.getElementById('answered-count').textContent = 'Answered: ' + n;
+}
+
+// ── SUBMIT ───────────────────────────────────────────────────────────────────
+function submitAll() {
+  if (submitted) return;
+  submitted = true;
+  clearInterval(timerInterval);
+
+  let score = 0;
+  for (let q = 1; q <= 50; q++) {
+    const card = document.getElementById('q' + q);
+    const correct = answers[q];
+    const chosen  = selected[q];
+    const opts    = card.querySelectorAll('.opt');
+    const letters = ['A','B','C','D'];
+
+    opts.forEach((o, i) => {
+      o.classList.remove('selected-correct','selected-wrong','reveal-correct');
+    });
+
+    opts.forEach((o, i) => {
+      if (letters[i] === correct && letters[i] === chosen) {
+        o.classList.add('selected-correct');
+        score++;
+        card.classList.add('answered-correct');
+      } else if (letters[i] === chosen && chosen !== correct) {
+        o.classList.add('selected-wrong');
+        card.classList.add('answered-wrong');
+      } else if (letters[i] === correct) {
+        o.classList.add('reveal-correct');
+      }
+    });
+
+    const rt = document.getElementById('rt' + q);
+    if (!chosen) {
+      rt.textContent = '— Not Answered';
+      rt.className = 'result-tag show wrong';
+    } else if (chosen === correct) {
+      rt.textContent = '✓ Correct';
+      rt.className = 'result-tag show correct';
+    } else {
+      rt.textContent = '✗ Wrong — Correct: ' + correct;
+      rt.className = 'result-tag show wrong';
+    }
+  }
+
+  const sb = document.getElementById('scoreboard');
+  sb.style.display = 'block';
+  document.getElementById('score-val').textContent = score;
+  document.getElementById('marks-val').textContent = score * 2;
+
+  let grade = '';
+  if (score >= 45) grade = '🏆 Outstanding — A+';
+  else if (score >= 40) grade = '⭐ Excellent — A';
+  else if (score >= 35) grade = '👍 Good — B';
+  else if (score >= 25) grade = '✔️ Average — C';
+  else grade = '📚 Needs Improvement';
+  document.getElementById('grade-label').textContent = grade;
+
+  sb.scrollIntoView({ behavior: 'smooth' });
+}
+
+// ── RESET ────────────────────────────────────────────────────────────────────
+function resetAll() {
+  location.reload();
+}
+</script>
+</body>
+</html>

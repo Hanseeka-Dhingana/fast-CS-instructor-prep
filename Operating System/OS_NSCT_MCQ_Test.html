@@ -1,0 +1,1678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Operating Systems — NSCT MCQ Test</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:        #05080f;
+  --surface:   #0b1020;
+  --card:      #0e1525;
+  --border:    #162040;
+  --border2:   #1e2d55;
+  --gold:      #e8b84b;
+  --gold2:     #f5d080;
+  --blue:      #3b7cff;
+  --cyan:      #00d4c8;
+  --green:     #22c97a;
+  --red:       #f04060;
+  --text:      #dde4f5;
+  --muted:     #5a6a90;
+  --mono:      'IBM Plex Mono', monospace;
+  --sans:      'IBM Plex Sans', sans-serif;
+  --display:   'Bebas Neue', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ── NOISE LAYER ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size: 180px;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* ── HEADER ── */
+header {
+  position: relative; z-index: 10;
+  background: linear-gradient(180deg, #08112b 0%, #05080f 100%);
+  border-bottom: 1px solid var(--border2);
+  padding: 0;
+  overflow: hidden;
+}
+
+.header-top-bar {
+  background: var(--gold);
+  display: flex;
+  justify-content: center;
+  gap: 48px;
+  padding: 7px 24px;
+  flex-wrap: wrap;
+}
+.htb-item {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #000;
+}
+
+.header-body {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 44px 28px 36px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  align-items: center;
+}
+
+.header-badge {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.header-badge::before {
+  content: '';
+  display: inline-block;
+  width: 24px; height: 1px;
+  background: var(--gold);
+}
+
+header h1 {
+  font-family: var(--display);
+  font-size: clamp(2.8rem, 7vw, 5.5rem);
+  line-height: 0.92;
+  letter-spacing: 2px;
+  color: #fff;
+}
+header h1 span { color: var(--gold); }
+
+.header-sub {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--muted);
+  letter-spacing: 1px;
+  margin-top: 14px;
+  font-style: italic;
+}
+
+.header-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-end;
+}
+.hstat {
+  text-align: right;
+}
+.hstat-val {
+  font-family: var(--display);
+  font-size: 2.6rem;
+  line-height: 1;
+  color: var(--gold);
+}
+.hstat-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ── STICKY NAV ── */
+.sticky-nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(5, 8, 15, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 52px;
+}
+
+.sn-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+#timer-display {
+  font-family: var(--mono);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 2px;
+  min-width: 70px;
+}
+#timer-display.warning { color: var(--red); animation: blink 1s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+.sn-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.progress-wrap { flex: 1; max-width: 340px; margin: 0 28px; }
+.progress-track {
+  height: 3px;
+  background: var(--border2);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--gold), var(--cyan));
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+.progress-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  text-align: right;
+  margin-top: 4px;
+  letter-spacing: 1px;
+}
+
+.sn-right {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 1px;
+}
+#ans-count { color: var(--cyan); }
+
+/* ── MAIN CONTENT ── */
+main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 24px 100px;
+  position: relative; z-index: 1;
+}
+
+/* ── CHAPTER HEADER ── */
+.chapter-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 56px 0 24px;
+}
+.chapter-num {
+  font-family: var(--display);
+  font-size: 3.5rem;
+  line-height: 1;
+  color: var(--border2);
+  min-width: 60px;
+}
+.chapter-info { flex: 1; }
+.chapter-title {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+.chapter-name {
+  font-family: var(--sans);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text);
+}
+.chapter-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--border2), transparent);
+}
+
+/* ── QUESTION CARD ── */
+.q-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  margin-bottom: 14px;
+  overflow: hidden;
+  position: relative;
+  transition: border-color 0.2s, transform 0.15s;
+}
+.q-card:hover { border-color: var(--border2); transform: translateX(2px); }
+.q-card.correct-card  { border-color: var(--green); }
+.q-card.wrong-card    { border-color: var(--red); }
+
+.q-card-inner { padding: 22px 24px 18px; }
+
+.q-header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.q-num-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: #000;
+  background: var(--gold);
+  padding: 2px 8px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+.q-topic-tag {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.q-text {
+  font-size: 15.5px;
+  font-weight: 400;
+  color: #c8d4ef;
+  line-height: 1.55;
+  margin-bottom: 18px;
+}
+.q-text code {
+  font-family: var(--mono);
+  font-size: 13px;
+  background: rgba(59, 124, 255, 0.1);
+  border: 1px solid rgba(59, 124, 255, 0.2);
+  border-radius: 2px;
+  padding: 1px 6px;
+  color: #7db8ff;
+}
+
+/* ── OPTIONS ── */
+.options { display: grid; gap: 7px; }
+
+.opt {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.12s;
+  background: rgba(255,255,255,0.01);
+  position: relative;
+}
+.opt:hover { background: rgba(232,184,75,0.04); border-color: rgba(232,184,75,0.3); }
+
+.opt.chosen     { background: rgba(59,124,255,0.08); border-color: rgba(59,124,255,0.5); }
+.opt.opt-correct { background: rgba(34,201,122,0.08); border-color: var(--green); }
+.opt.opt-wrong   { background: rgba(240,64,96,0.08);  border-color: var(--red); }
+.opt.opt-reveal  { background: rgba(34,201,122,0.05); border-color: rgba(34,201,122,0.35); }
+
+.opt-letter {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  width: 18px;
+  flex-shrink: 0;
+  padding-top: 1px;
+}
+.opt.chosen    .opt-letter { color: var(--blue); }
+.opt.opt-correct .opt-letter { color: var(--green); }
+.opt.opt-wrong   .opt-letter { color: var(--red); }
+.opt.opt-reveal  .opt-letter { color: var(--green); }
+
+.opt-text {
+  font-size: 14.5px;
+  font-weight: 300;
+  color: #a8b8d8;
+  line-height: 1.45;
+}
+
+/* ── RESULT TAG ── */
+.result-tag {
+  display: none;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  padding: 4px 10px;
+  border-radius: 2px;
+  margin-top: 12px;
+  text-transform: uppercase;
+}
+.result-tag.show { display: inline-block; }
+.result-tag.r-correct { background: rgba(34,201,122,0.15); color: var(--green); }
+.result-tag.r-wrong   { background: rgba(240,64,96,0.15);  color: var(--red); }
+.result-tag.r-skip    { background: rgba(90,106,144,0.2);  color: var(--muted); }
+
+/* ── CONTROLS ── */
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 56px;
+}
+
+.btn {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 13px 34px;
+  border-radius: 2px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+.btn-gold {
+  background: var(--gold);
+  color: #000;
+}
+.btn-gold:hover { background: var(--gold2); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(232,184,75,0.25); }
+.btn-outline {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border2);
+}
+.btn-outline:hover { color: var(--text); border-color: var(--muted); }
+
+/* ── SCOREBOARD ── */
+#scoreboard {
+  display: none;
+  margin-top: 60px;
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.sb-top {
+  background: linear-gradient(135deg, #0a1535 0%, #0e1e40 100%);
+  padding: 48px 40px;
+  text-align: center;
+  border-bottom: 1px solid var(--border2);
+  position: relative;
+}
+.sb-top::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(232,184,75,0.08) 0%, transparent 70%);
+}
+
+.sb-title {
+  font-family: var(--display);
+  font-size: 3rem;
+  letter-spacing: 3px;
+  color: #fff;
+  margin-bottom: 6px;
+  position: relative;
+}
+
+.score-display {
+  position: relative;
+  margin: 28px auto;
+  width: 150px; height: 150px;
+}
+.score-ring {
+  width: 150px; height: 150px;
+  border-radius: 50%;
+  border: 3px solid var(--border2);
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column;
+  position: relative;
+}
+.score-ring::before {
+  content: '';
+  position: absolute; inset: 6px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(232,184,75,0.06) 0%, transparent 70%);
+}
+.score-num {
+  font-family: var(--display);
+  font-size: 3.5rem;
+  line-height: 1;
+  color: var(--gold);
+}
+.score-denom {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.grade-text {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--cyan);
+  position: relative;
+}
+
+.sb-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+}
+.sb-stat {
+  background: var(--card);
+  padding: 24px;
+  text-align: center;
+}
+.sb-stat-val {
+  font-family: var(--display);
+  font-size: 2.2rem;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.sb-stat-val.green { color: var(--green); }
+.sb-stat-val.red   { color: var(--red); }
+.sb-stat-val.muted { color: var(--muted); }
+.sb-stat-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+@media(max-width:600px){
+  .header-body { grid-template-columns: 1fr; }
+  .header-stats { align-items: flex-start; flex-direction: row; gap: 24px; }
+  .sb-stats { grid-template-columns: 1fr; }
+  .chapter-num { font-size: 2.5rem; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-top-bar">
+    <span class="htb-item">NSCT Exam Preparation</span>
+    <span class="htb-item">Instructor Recruitment Test</span>
+    <span class="htb-item">Session 2026</span>
+  </div>
+  <div class="header-body">
+    <div>
+      <div class="header-badge">Subject Examination</div>
+      <h1>OPERATING<br><span>SYSTEMS</span></h1>
+      <p class="header-sub">National Standard Competency Test · Complete Coverage · All Core Topics</p>
+    </div>
+    <div class="header-stats">
+      <div class="hstat">
+        <div class="hstat-val">50</div>
+        <div class="hstat-label">Questions</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val">100</div>
+        <div class="hstat-label">Total Marks</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val">60</div>
+        <div class="hstat-label">Minutes</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="sticky-nav">
+  <div class="sn-left">
+    <div>
+      <div class="sn-label">Time Left</div>
+      <div id="timer-display">60:00</div>
+    </div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
+    <div class="progress-label" id="prog-label">0 / 50 answered</div>
+  </div>
+  <div class="sn-right">Score <span id="ans-count">0</span>/50</div>
+</div>
+
+<main>
+
+<!-- ════════════ CHAPTER 01 ════════════ -->
+<div class="chapter-head">
+  <div class="chapter-num">01</div>
+  <div class="chapter-info">
+    <div class="chapter-title">Chapter 01</div>
+    <div class="chapter-name">Introduction to Operating Systems</div>
+  </div>
+  <div class="chapter-line"></div>
+</div>
+
+<div class="q-card" id="q1">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 01</span>
+      <span class="q-topic-tag">OS Basics</span>
+    </div>
+    <div class="q-text">An Operating System acts as an intermediary between the user and the:</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,1,'A')"><span class="opt-letter">A</span><span class="opt-text">Application Software</span></div>
+      <div class="opt" onclick="pick(this,1,'B')"><span class="opt-letter">B</span><span class="opt-text">Hardware</span></div>
+      <div class="opt" onclick="pick(this,1,'C')"><span class="opt-letter">C</span><span class="opt-text">Network</span></div>
+      <div class="opt" onclick="pick(this,1,'D')"><span class="opt-letter">D</span><span class="opt-text">Compiler</span></div>
+    </div>
+    <div class="result-tag" id="rt1"></div>
+  </div>
+</div>
+
+<div class="q-card" id="q2">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 02</span>
+      <span class="q-topic-tag">OS Types</span>
+    </div>
+    <div class="q-text">Which type of OS allows multiple users to share system resources simultaneously?</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,2,'A')"><span class="opt-letter">A</span><span class="opt-text">Single-user OS</span></div>
+      <div class="opt" onclick="pick(this,2,'B')"><span class="opt-letter">B</span><span class="opt-text">Batch OS</span></div>
+      <div class="opt" onclick="pick(this,2,'C')"><span class="opt-letter">C</span><span class="opt-text">Multi-user OS</span></div>
+      <div class="opt" onclick="pick(this,2,'D')"><span class="opt-letter">D</span><span class="opt-text">Embedded OS</span></div>
+    </div>
+    <div class="result-tag" id="rt2"></div>
+  </div>
+</div>
+
+<div class="q-card" id="q3">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 03</span>
+      <span class="q-topic-tag">Kernel</span>
+    </div>
+    <div class="q-text">The core component of an Operating System that manages system resources is called the:</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,3,'A')"><span class="opt-letter">A</span><span class="opt-text">Shell</span></div>
+      <div class="opt" onclick="pick(this,3,'B')"><span class="opt-letter">B</span><span class="opt-text">Compiler</span></div>
+      <div class="opt" onclick="pick(this,3,'C')"><span class="opt-letter">C</span><span class="opt-text">Kernel</span></div>
+      <div class="opt" onclick="pick(this,3,'D')"><span class="opt-letter">D</span><span class="opt-text">Loader</span></div>
+    </div>
+    <div class="result-tag" id="rt3"></div>
+  </div>
+</div>
+
+<div class="q-card" id="q4">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 04</span>
+      <span class="q-topic-tag">System Calls</span>
+    </div>
+    <div class="q-text">System calls provide an interface between a running program and the:</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,4,'A')"><span class="opt-letter">A</span><span class="opt-text">User interface</span></div>
+      <div class="opt" onclick="pick(this,4,'B')"><span class="opt-letter">B</span><span class="opt-text">Operating System services</span></div>
+      <div class="opt" onclick="pick(this,4,'C')"><span class="opt-letter">C</span><span class="opt-text">Secondary storage</span></div>
+      <div class="opt" onclick="pick(this,4,'D')"><span class="opt-letter">D</span><span class="opt-text">Network layer</span></div>
+    </div>
+    <div class="result-tag" id="rt4"></div>
+  </div>
+</div>
+
+<!-- ════════════ CHAPTER 02 ════════════ -->
+<div class="chapter-head">
+  <div class="chapter-num">02</div>
+  <div class="chapter-info">
+    <div class="chapter-title">Chapter 02</div>
+    <div class="chapter-name">Process Management</div>
+  </div>
+  <div class="chapter-line"></div>
+</div>
+
+<div class="q-card" id="q5">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 05</span>
+      <span class="q-topic-tag">Process States</span>
+    </div>
+    <div class="q-text">Which of the following is NOT a valid process state in a typical OS process lifecycle?</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,5,'A')"><span class="opt-letter">A</span><span class="opt-text">Ready</span></div>
+      <div class="opt" onclick="pick(this,5,'B')"><span class="opt-letter">B</span><span class="opt-text">Running</span></div>
+      <div class="opt" onclick="pick(this,5,'C')"><span class="opt-letter">C</span><span class="opt-text">Compiling</span></div>
+      <div class="opt" onclick="pick(this,5,'D')"><span class="opt-letter">D</span><span class="opt-text">Waiting (Blocked)</span></div>
+    </div>
+    <div class="result-tag" id="rt5"></div>
+  </div>
+</div>
+
+<div class="q-card" id="q6">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 06</span>
+      <span class="q-topic-tag">PCB</span>
+    </div>
+    <div class="q-text">The data structure maintained by the OS for every process is called the:</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,6,'A')"><span class="opt-letter">A</span><span class="opt-text">Page Table</span></div>
+      <div class="opt" onclick="pick(this,6,'B')"><span class="opt-letter">B</span><span class="opt-text">Process Control Block (PCB)</span></div>
+      <div class="opt" onclick="pick(this,6,'C')"><span class="opt-letter">C</span><span class="opt-text">Job Queue</span></div>
+      <div class="opt" onclick="pick(this,6,'D')"><span class="opt-letter">D</span><span class="opt-text">File Descriptor Table</span></div>
+    </div>
+    <div class="result-tag" id="rt6"></div>
+  </div>
+</div>
+
+<div class="q-card" id="q7">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 07</span>
+      <span class="q-topic-tag">Context Switch</span>
+    </div>
+    <div class="q-text">Saving the state of the current process and loading the state of the next process is called:</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,7,'A')"><span class="opt-letter">A</span><span class="opt-text">Process Scheduling</span></div>
+      <div class="opt" onclick="pick(this,7,'B')"><span class="opt-letter">B</span><span class="opt-text">Context Switching</span></div>
+      <div class="opt" onclick="pick(this,7,'C')"><span class="opt-letter">C</span><span class="opt-text">Memory Swapping</span></div>
+      <div class="opt" onclick="pick(this,7,'D')"><span class="opt-letter">D</span><span class="opt-text">Interrupt Handling</span></div>
+    </div>
+    <div class="result-tag" id="rt7"></div>
+  </div>
+</div>
+
+<div class="q-card" id="q8">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 08</span>
+      <span class="q-topic-tag">Threads</span>
+    </div>
+    <div class="q-text">A thread is often referred to as a:</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,8,'A')"><span class="opt-letter">A</span><span class="opt-text">Heavy-weight process</span></div>
+      <div class="opt" onclick="pick(this,8,'B')"><span class="opt-letter">B</span><span class="opt-text">Light-weight process</span></div>
+      <div class="opt" onclick="pick(this,8,'C')"><span class="opt-letter">C</span><span class="opt-text">Batch job</span></div>
+      <div class="opt" onclick="pick(this,8,'D')"><span class="opt-letter">D</span><span class="opt-text">System call</span></div>
+    </div>
+    <div class="result-tag" id="rt8"></div>
+  </div>
+</div>
+
+<div class="q-card" id="q9">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 09</span>
+      <span class="q-topic-tag">Inter-Process Comm.</span>
+    </div>
+    <div class="q-text">Which of the following is a mechanism for Inter-Process Communication (IPC)?</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,9,'A')"><span class="opt-letter">A</span><span class="opt-text">Paging</span></div>
+      <div class="opt" onclick="pick(this,9,'B')"><span class="opt-letter">B</span><span class="opt-text">Pipes and Message Queues</span></div>
+      <div class="opt" onclick="pick(this,9,'C')"><span class="opt-letter">C</span><span class="opt-text">Disk Scheduling</span></div>
+      <div class="opt" onclick="pick(this,9,'D')"><span class="opt-letter">D</span><span class="opt-text">Page Replacement</span></div>
+    </div>
+    <div class="result-tag" id="rt9"></div>
+  </div>
+</div>
+
+<!-- ════════════ CHAPTER 03 ════════════ -->
+<div class="chapter-head">
+  <div class="chapter-num">03</div>
+  <div class="chapter-info">
+    <div class="chapter-title">Chapter 03</div>
+    <div class="chapter-name">CPU Scheduling</div>
+  </div>
+  <div class="chapter-line"></div>
+</div>
+
+<div class="q-card" id="q10">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 10</span>
+      <span class="q-topic-tag">Scheduling Criteria</span>
+    </div>
+    <div class="q-text">CPU utilization and throughput are criteria used to evaluate:</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,10,'A')"><span class="opt-letter">A</span><span class="opt-text">Memory management algorithms</span></div>
+      <div class="opt" onclick="pick(this,10,'B')"><span class="opt-letter">B</span><span class="opt-text">CPU scheduling algorithms</span></div>
+      <div class="opt" onclick="pick(this,10,'C')"><span class="opt-letter">C</span><span class="opt-text">Disk scheduling algorithms</span></div>
+      <div class="opt" onclick="pick(this,10,'D')"><span class="opt-letter">D</span><span class="opt-text">File system organization</span></div>
+    </div>
+    <div class="result-tag" id="rt10"></div>
+  </div>
+</div>
+
+<div class="q-card" id="q11">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 11</span>
+      <span class="q-topic-tag">FCFS</span>
+    </div>
+    <div class="q-text">In First-Come-First-Served (FCFS) scheduling, a long process at the head of the queue makes short processes wait for a long time. This is called the:</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,11,'A')"><span class="opt-letter">A</span><span class="opt-text">Starvation Problem</span></div>
+      <div class="opt" onclick="pick(this,11,'B')"><span class="opt-letter">B</span><span class="opt-text">Convoy Effect</span></div>
+      <div class="opt" onclick="pick(this,11,'C')"><span class="opt-letter">C</span><span class="opt-text">Deadlock</span></div>
+      <div class="opt" onclick="pick(this,11,'D')"><span class="opt-letter">D</span><span class="opt-text">Thrashing</span></div>
+    </div>
+    <div class="result-tag" id="rt11"></div>
+  </div>
+</div>
+
+<div class="q-card" id="q12">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 12</span>
+      <span class="q-topic-tag">SJF</span>
+    </div>
+    <div class="q-text">Shortest Job First (SJF) scheduling is optimal in terms of:</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,12,'A')"><span class="opt-letter">A</span><span class="opt-text">Minimizing waiting time</span></div>
+      <div class="opt" onclick="pick(this,12,'B')"><span class="opt-letter">B</span><span class="opt-text">Maximizing response time</span></div>
+      <div class="opt" onclick="pick(this,12,'C')"><span class="opt-letter">C</span><span class="opt-text">Maximizing CPU burst length</span></div>
+      <div class="opt" onclick="pick(this,12,'D')"><span class="opt-letter">D</span><span class="opt-text">Minimizing context switches</span></div>
+    </div>
+    <div class="result-tag" id="rt12"></div>
+  </div>
+</div>
+
+<div class="q-card" id="q13">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 13</span>
+      <span class="q-topic-tag">Round Robin</span>
+    </div>
+    <div class="q-text">In Round Robin (RR) scheduling, the fixed time slice allocated to each process is called:</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,13,'A')"><span class="opt-letter">A</span><span class="opt-text">Burst time</span></div>
+      <div class="opt" onclick="pick(this,13,'B')"><span class="opt-letter">B</span><span class="opt-text">Time quantum</span></div>
+      <div class="opt" onclick="pick(this,13,'C')"><span class="opt-letter">C</span><span class="opt-text">Turnaround time</span></div>
+      <div class="opt" onclick="pick(this,13,'D')"><span class="opt-letter">D</span><span class="opt-text">Waiting time</span></div>
+    </div>
+    <div class="result-tag" id="rt13"></div>
+  </div>
+</div>
+
+<div class="q-card" id="q14">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 14</span>
+      <span class="q-topic-tag">Starvation</span>
+    </div>
+    <div class="q-text">Which scheduling algorithm can cause starvation for low-priority processes?</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,14,'A')"><span class="opt-letter">A</span><span class="opt-text">Round Robin</span></div>
+      <div class="opt" onclick="pick(this,14,'B')"><span class="opt-letter">B</span><span class="opt-text">FCFS</span></div>
+      <div class="opt" onclick="pick(this,14,'C')"><span class="opt-letter">C</span><span class="opt-text">Priority Scheduling</span></div>
+      <div class="opt" onclick="pick(this,14,'D')"><span class="opt-letter">D</span><span class="opt-text">Multilevel Queue</span></div>
+    </div>
+    <div class="result-tag" id="rt14"></div>
+  </div>
+</div>
+
+<!-- ════════════ CHAPTER 04 ════════════ -->
+<div class="chapter-head">
+  <div class="chapter-num">04</div>
+  <div class="chapter-info">
+    <div class="chapter-title">Chapter 04</div>
+    <div class="chapter-name">Process Synchronization</div>
+  </div>
+  <div class="chapter-line"></div>
+</div>
+
+<div class="q-card" id="q15">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 15</span>
+      <span class="q-topic-tag">Critical Section</span>
+    </div>
+    <div class="q-text">The section of code in a process where shared resources are accessed is called the:</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,15,'A')"><span class="opt-letter">A</span><span class="opt-text">Entry section</span></div>
+      <div class="opt" onclick="pick(this,15,'B')"><span class="opt-letter">B</span><span class="opt-text">Critical section</span></div>
+      <div class="opt" onclick="pick(this,15,'C')"><span class="opt-letter">C</span><span class="opt-text">Remainder section</span></div>
+      <div class="opt" onclick="pick(this,15,'D')"><span class="opt-letter">D</span><span class="opt-text">Exit section</span></div>
+    </div>
+    <div class="result-tag" id="rt15"></div>
+  </div>
+</div>
+
+<div class="q-card" id="q16">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 16</span>
+      <span class="q-topic-tag">Semaphore</span>
+    </div>
+    <div class="q-text">A semaphore is an integer variable accessed only through two atomic operations. Those operations are:</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,16,'A')"><span class="opt-letter">A</span><span class="opt-text">lock() and unlock()</span></div>
+      <div class="opt" onclick="pick(this,16,'B')"><span class="opt-letter">B</span><span class="opt-text">wait() (P) and signal() (V)</span></div>
+      <div class="opt" onclick="pick(this,16,'C')"><span class="opt-letter">C</span><span class="opt-text">open() and close()</span></div>
+      <div class="opt" onclick="pick(this,16,'D')"><span class="opt-letter">D</span><span class="opt-text">read() and write()</span></div>
+    </div>
+    <div class="result-tag" id="rt16"></div>
+  </div>
+</div>
+
+<div class="q-card" id="q17">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 17</span>
+      <span class="q-topic-tag">Mutex</span>
+    </div>
+    <div class="q-text">A binary semaphore used for mutual exclusion is commonly called a:</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,17,'A')"><span class="opt-letter">A</span><span class="opt-text">Monitor</span></div>
+      <div class="opt" onclick="pick(this,17,'B')"><span class="opt-letter">B</span><span class="opt-text">Mutex (Mutual Exclusion Lock)</span></div>
+      <div class="opt" onclick="pick(this,17,'C')"><span class="opt-letter">C</span><span class="opt-text">Spinlock register</span></div>
+      <div class="opt" onclick="pick(this,17,'D')"><span class="opt-letter">D</span><span class="opt-text">Interrupt flag</span></div>
+    </div>
+    <div class="result-tag" id="rt17"></div>
+  </div>
+</div>
+
+<div class="q-card" id="q18">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 18</span>
+      <span class="q-topic-tag">Classical Problems</span>
+    </div>
+    <div class="q-text">The Producer-Consumer problem is a classic example of a:</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,18,'A')"><span class="opt-letter">A</span><span class="opt-text">Disk scheduling problem</span></div>
+      <div class="opt" onclick="pick(this,18,'B')"><span class="opt-letter">B</span><span class="opt-text">Process synchronization problem</span></div>
+      <div class="opt" onclick="pick(this,18,'C')"><span class="opt-letter">C</span><span class="opt-text">Memory allocation problem</span></div>
+      <div class="opt" onclick="pick(this,18,'D')"><span class="opt-letter">D</span><span class="opt-text">CPU scheduling problem</span></div>
+    </div>
+    <div class="result-tag" id="rt18"></div>
+  </div>
+</div>
+
+<!-- ════════════ CHAPTER 05 ════════════ -->
+<div class="chapter-head">
+  <div class="chapter-num">05</div>
+  <div class="chapter-info">
+    <div class="chapter-title">Chapter 05</div>
+    <div class="chapter-name">Deadlocks</div>
+  </div>
+  <div class="chapter-line"></div>
+</div>
+
+<div class="q-card" id="q19">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 19</span>
+      <span class="q-topic-tag">Deadlock Conditions</span>
+    </div>
+    <div class="q-text">Which of the following is NOT one of the four necessary conditions for a deadlock to occur?</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,19,'A')"><span class="opt-letter">A</span><span class="opt-text">Mutual Exclusion</span></div>
+      <div class="opt" onclick="pick(this,19,'B')"><span class="opt-letter">B</span><span class="opt-text">Hold and Wait</span></div>
+      <div class="opt" onclick="pick(this,19,'C')"><span class="opt-letter">C</span><span class="opt-text">Preemption</span></div>
+      <div class="opt" onclick="pick(this,19,'D')"><span class="opt-letter">D</span><span class="opt-text">Circular Wait</span></div>
+    </div>
+    <div class="result-tag" id="rt19"></div>
+  </div>
+</div>
+
+<div class="q-card" id="q20">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 20</span>
+      <span class="q-topic-tag">Banker's Algorithm</span>
+    </div>
+    <div class="q-text">The Banker's Algorithm is used for:</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,20,'A')"><span class="opt-letter">A</span><span class="opt-text">Deadlock detection</span></div>
+      <div class="opt" onclick="pick(this,20,'B')"><span class="opt-letter">B</span><span class="opt-text">Deadlock avoidance</span></div>
+      <div class="opt" onclick="pick(this,20,'C')"><span class="opt-letter">C</span><span class="opt-text">Deadlock recovery</span></div>
+      <div class="opt" onclick="pick(this,20,'D')"><span class="opt-letter">D</span><span class="opt-text">Deadlock prevention</span></div>
+    </div>
+    <div class="result-tag" id="rt20"></div>
+  </div>
+</div>
+
+<div class="q-card" id="q21">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 21</span>
+      <span class="q-topic-tag">Deadlock Recovery</span>
+    </div>
+    <div class="q-text">One method of recovering from a deadlock is to:</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,21,'A')"><span class="opt-letter">A</span><span class="opt-text">Add more RAM</span></div>
+      <div class="opt" onclick="pick(this,21,'B')"><span class="opt-letter">B</span><span class="opt-text">Terminate one or more deadlocked processes</span></div>
+      <div class="opt" onclick="pick(this,21,'C')"><span class="opt-letter">C</span><span class="opt-text">Increase CPU speed</span></div>
+      <div class="opt" onclick="pick(this,21,'D')"><span class="opt-letter">D</span><span class="opt-text">Restart the network</span></div>
+    </div>
+    <div class="result-tag" id="rt21"></div>
+  </div>
+</div>
+
+<!-- ════════════ CHAPTER 06 ════════════ -->
+<div class="chapter-head">
+  <div class="chapter-num">06</div>
+  <div class="chapter-info">
+    <div class="chapter-title">Chapter 06</div>
+    <div class="chapter-name">Memory Management</div>
+  </div>
+  <div class="chapter-line"></div>
+</div>
+
+<div class="q-card" id="q22">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 22</span>
+      <span class="q-topic-tag">Partitioning</span>
+    </div>
+    <div class="q-text">External fragmentation is a problem associated with:</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,22,'A')"><span class="opt-letter">A</span><span class="opt-text">Paging</span></div>
+      <div class="opt" onclick="pick(this,22,'B')"><span class="opt-letter">B</span><span class="opt-text">Segmentation and contiguous memory allocation</span></div>
+      <div class="opt" onclick="pick(this,22,'C')"><span class="opt-letter">C</span><span class="opt-text">Virtual memory</span></div>
+      <div class="opt" onclick="pick(this,22,'D')"><span class="opt-letter">D</span><span class="opt-text">Cache memory</span></div>
+    </div>
+    <div class="result-tag" id="rt22"></div>
+  </div>
+</div>
+
+<div class="q-card" id="q23">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 23</span>
+      <span class="q-topic-tag">Paging</span>
+    </div>
+    <div class="q-text">In paging, the logical address is divided into:</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,23,'A')"><span class="opt-letter">A</span><span class="opt-text">Segment number and segment offset</span></div>
+      <div class="opt" onclick="pick(this,23,'B')"><span class="opt-letter">B</span><span class="opt-text">Page number and page offset</span></div>
+      <div class="opt" onclick="pick(this,23,'C')"><span class="opt-letter">C</span><span class="opt-text">Block number and byte offset</span></div>
+      <div class="opt" onclick="pick(this,23,'D')"><span class="opt-letter">D</span><span class="opt-text">Frame number and displacement</span></div>
+    </div>
+    <div class="result-tag" id="rt23"></div>
+  </div>
+</div>
+
+<div class="q-card" id="q24">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 24</span>
+      <span class="q-topic-tag">TLB</span>
+    </div>
+    <div class="q-text">A Translation Lookaside Buffer (TLB) is used to speed up:</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,24,'A')"><span class="opt-letter">A</span><span class="opt-text">Disk access</span></div>
+      <div class="opt" onclick="pick(this,24,'B')"><span class="opt-letter">B</span><span class="opt-text">Paging address translation</span></div>
+      <div class="opt" onclick="pick(this,24,'C')"><span class="opt-letter">C</span><span class="opt-text">CPU scheduling</span></div>
+      <div class="opt" onclick="pick(this,24,'D')"><span class="opt-letter">D</span><span class="opt-text">File I/O operations</span></div>
+    </div>
+    <div class="result-tag" id="rt24"></div>
+  </div>
+</div>
+
+<div class="q-card" id="q25">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 25</span>
+      <span class="q-topic-tag">Segmentation</span>
+    </div>
+    <div class="q-text">Segmentation differs from paging because segments are:</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,25,'A')"><span class="opt-letter">A</span><span class="opt-text">Always equal in size</span></div>
+      <div class="opt" onclick="pick(this,25,'B')"><span class="opt-letter">B</span><span class="opt-text">Variable in size and logically meaningful</span></div>
+      <div class="opt" onclick="pick(this,25,'C')"><span class="opt-letter">C</span><span class="opt-text">Stored only in secondary storage</span></div>
+      <div class="opt" onclick="pick(this,25,'D')"><span class="opt-letter">D</span><span class="opt-text">Fixed in size and invisible to the user</span></div>
+    </div>
+    <div class="result-tag" id="rt25"></div>
+  </div>
+</div>
+
+<!-- ════════════ CHAPTER 07 ════════════ -->
+<div class="chapter-head">
+  <div class="chapter-num">07</div>
+  <div class="chapter-info">
+    <div class="chapter-title">Chapter 07</div>
+    <div class="chapter-name">Virtual Memory</div>
+  </div>
+  <div class="chapter-line"></div>
+</div>
+
+<div class="q-card" id="q26">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 26</span>
+      <span class="q-topic-tag">Virtual Memory</span>
+    </div>
+    <div class="q-text">Virtual memory allows execution of a process that is not completely in memory by using:</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,26,'A')"><span class="opt-letter">A</span><span class="opt-text">Cache memory as a substitute</span></div>
+      <div class="opt" onclick="pick(this,26,'B')"><span class="opt-letter">B</span><span class="opt-text">Secondary storage (disk) as an extension of RAM</span></div>
+      <div class="opt" onclick="pick(this,26,'C')"><span class="opt-letter">C</span><span class="opt-text">CPU registers as main memory</span></div>
+      <div class="opt" onclick="pick(this,26,'D')"><span class="opt-letter">D</span><span class="opt-text">ROM as temporary storage</span></div>
+    </div>
+    <div class="result-tag" id="rt26"></div>
+  </div>
+</div>
+
+<div class="q-card" id="q27">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 27</span>
+      <span class="q-topic-tag">Page Fault</span>
+    </div>
+    <div class="q-text">A page fault occurs when a process accesses a page that is:</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,27,'A')"><span class="opt-letter">A</span><span class="opt-text">Present in physical memory</span></div>
+      <div class="opt" onclick="pick(this,27,'B')"><span class="opt-letter">B</span><span class="opt-text">Not currently in physical memory (in secondary storage)</span></div>
+      <div class="opt" onclick="pick(this,27,'C')"><span class="opt-letter">C</span><span class="opt-text">Locked by another process</span></div>
+      <div class="opt" onclick="pick(this,27,'D')"><span class="opt-letter">D</span><span class="opt-text">In the TLB cache</span></div>
+    </div>
+    <div class="result-tag" id="rt27"></div>
+  </div>
+</div>
+
+<div class="q-card" id="q28">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 28</span>
+      <span class="q-topic-tag">Page Replacement</span>
+    </div>
+    <div class="q-text">The Optimal page replacement algorithm replaces the page that will not be used for the:</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,28,'A')"><span class="opt-letter">A</span><span class="opt-text">Shortest time in the future</span></div>
+      <div class="opt" onclick="pick(this,28,'B')"><span class="opt-letter">B</span><span class="opt-text">Longest time in the future</span></div>
+      <div class="opt" onclick="pick(this,28,'C')"><span class="opt-letter">C</span><span class="opt-text">Least number of times previously</span></div>
+      <div class="opt" onclick="pick(this,28,'D')"><span class="opt-letter">D</span><span class="opt-text">Most number of times previously</span></div>
+    </div>
+    <div class="result-tag" id="rt28"></div>
+  </div>
+</div>
+
+<div class="q-card" id="q29">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 29</span>
+      <span class="q-topic-tag">LRU</span>
+    </div>
+    <div class="q-text">The LRU (Least Recently Used) page replacement algorithm replaces the page that:</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,29,'A')"><span class="opt-letter">A</span><span class="opt-text">Was loaded first into memory</span></div>
+      <div class="opt" onclick="pick(this,29,'B')"><span class="opt-letter">B</span><span class="opt-text">Has the largest page number</span></div>
+      <div class="opt" onclick="pick(this,29,'C')"><span class="opt-letter">C</span><span class="opt-text">Was least recently accessed</span></div>
+      <div class="opt" onclick="pick(this,29,'D')"><span class="opt-letter">D</span><span class="opt-text">Has been in memory the shortest time</span></div>
+    </div>
+    <div class="result-tag" id="rt29"></div>
+  </div>
+</div>
+
+<div class="q-card" id="q30">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 30</span>
+      <span class="q-topic-tag">Thrashing</span>
+    </div>
+    <div class="q-text">Thrashing occurs when a process spends more time:</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,30,'A')"><span class="opt-letter">A</span><span class="opt-text">Executing instructions than swapping pages</span></div>
+      <div class="opt" onclick="pick(this,30,'B')"><span class="opt-letter">B</span><span class="opt-text">Paging (swapping pages in and out) than executing</span></div>
+      <div class="opt" onclick="pick(this,30,'C')"><span class="opt-letter">C</span><span class="opt-text">Waiting for I/O than using the CPU</span></div>
+      <div class="opt" onclick="pick(this,30,'D')"><span class="opt-letter">D</span><span class="opt-text">In the ready queue than in the running state</span></div>
+    </div>
+    <div class="result-tag" id="rt30"></div>
+  </div>
+</div>
+
+<!-- ════════════ CHAPTER 08 ════════════ -->
+<div class="chapter-head">
+  <div class="chapter-num">08</div>
+  <div class="chapter-info">
+    <div class="chapter-title">Chapter 08</div>
+    <div class="chapter-name">File System Management</div>
+  </div>
+  <div class="chapter-line"></div>
+</div>
+
+<div class="q-card" id="q31">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 31</span>
+      <span class="q-topic-tag">File Attributes</span>
+    </div>
+    <div class="q-text">Which of the following is NOT a typical file attribute maintained by an OS?</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,31,'A')"><span class="opt-letter">A</span><span class="opt-text">File name</span></div>
+      <div class="opt" onclick="pick(this,31,'B')"><span class="opt-letter">B</span><span class="opt-text">File size</span></div>
+      <div class="opt" onclick="pick(this,31,'C')"><span class="opt-letter">C</span><span class="opt-text">File author's nationality</span></div>
+      <div class="opt" onclick="pick(this,31,'D')"><span class="opt-letter">D</span><span class="opt-text">File creation date</span></div>
+    </div>
+    <div class="result-tag" id="rt31"></div>
+  </div>
+</div>
+
+<div class="q-card" id="q32">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 32</span>
+      <span class="q-topic-tag">Directory Structure</span>
+    </div>
+    <div class="q-text">Which directory structure allows the same file to be accessed through multiple different paths?</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,32,'A')"><span class="opt-letter">A</span><span class="opt-text">Single-level directory</span></div>
+      <div class="opt" onclick="pick(this,32,'B')"><span class="opt-letter">B</span><span class="opt-text">Two-level directory</span></div>
+      <div class="opt" onclick="pick(this,32,'C')"><span class="opt-letter">C</span><span class="opt-text">Tree-structured directory</span></div>
+      <div class="opt" onclick="pick(this,32,'D')"><span class="opt-letter">D</span><span class="opt-text">Acyclic-graph directory</span></div>
+    </div>
+    <div class="result-tag" id="rt32"></div>
+  </div>
+</div>
+
+<div class="q-card" id="q33">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 33</span>
+      <span class="q-topic-tag">File Allocation</span>
+    </div>
+    <div class="q-text">In contiguous file allocation, accessing a file requires knowing only its:</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,33,'A')"><span class="opt-letter">A</span><span class="opt-text">Index block location</span></div>
+      <div class="opt" onclick="pick(this,33,'B')"><span class="opt-letter">B</span><span class="opt-text">Starting block and length</span></div>
+      <div class="opt" onclick="pick(this,33,'C')"><span class="opt-letter">C</span><span class="opt-text">Linked list of all blocks</span></div>
+      <div class="opt" onclick="pick(this,33,'D')"><span class="opt-letter">D</span><span class="opt-text">FAT table entry</span></div>
+    </div>
+    <div class="result-tag" id="rt33"></div>
+  </div>
+</div>
+
+<div class="q-card" id="q34">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 34</span>
+      <span class="q-topic-tag">Inode</span>
+    </div>
+    <div class="q-text">In UNIX/Linux file systems, an inode stores:</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,34,'A')"><span class="opt-letter">A</span><span class="opt-text">The file's name only</span></div>
+      <div class="opt" onclick="pick(this,34,'B')"><span class="opt-letter">B</span><span class="opt-text">File metadata and pointers to data blocks</span></div>
+      <div class="opt" onclick="pick(this,34,'C')"><span class="opt-letter">C</span><span class="opt-text">The directory listing of the file</span></div>
+      <div class="opt" onclick="pick(this,34,'D')"><span class="opt-letter">D</span><span class="opt-text">Only the file permissions</span></div>
+    </div>
+    <div class="result-tag" id="rt34"></div>
+  </div>
+</div>
+
+<!-- ════════════ CHAPTER 09 ════════════ -->
+<div class="chapter-head">
+  <div class="chapter-num">09</div>
+  <div class="chapter-info">
+    <div class="chapter-title">Chapter 09</div>
+    <div class="chapter-name">I/O Systems & Disk Management</div>
+  </div>
+  <div class="chapter-line"></div>
+</div>
+
+<div class="q-card" id="q35">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 35</span>
+      <span class="q-topic-tag">Disk Scheduling</span>
+    </div>
+    <div class="q-text">The SSTF (Shortest Seek Time First) disk scheduling algorithm selects the request:</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,35,'A')"><span class="opt-letter">A</span><span class="opt-text">That arrived first in the queue</span></div>
+      <div class="opt" onclick="pick(this,35,'B')"><span class="opt-letter">B</span><span class="opt-text">Closest to the current disk head position</span></div>
+      <div class="opt" onclick="pick(this,35,'C')"><span class="opt-letter">C</span><span class="opt-text">With the highest track number</span></div>
+      <div class="opt" onclick="pick(this,35,'D')"><span class="opt-letter">D</span><span class="opt-text">With the smallest block size</span></div>
+    </div>
+    <div class="result-tag" id="rt35"></div>
+  </div>
+</div>
+
+<div class="q-card" id="q36">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 36</span>
+      <span class="q-topic-tag">SCAN Algorithm</span>
+    </div>
+    <div class="q-text">The SCAN (Elevator) disk scheduling algorithm moves the disk head:</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,36,'A')"><span class="opt-letter">A</span><span class="opt-text">Randomly across the disk</span></div>
+      <div class="opt" onclick="pick(this,36,'B')"><span class="opt-letter">B</span><span class="opt-text">Back and forth from one end to the other, servicing requests along the way</span></div>
+      <div class="opt" onclick="pick(this,36,'C')"><span class="opt-letter">C</span><span class="opt-text">Always to the outermost track first</span></div>
+      <div class="opt" onclick="pick(this,36,'D')"><span class="opt-letter">D</span><span class="opt-text">Only in one direction</span></div>
+    </div>
+    <div class="result-tag" id="rt36"></div>
+  </div>
+</div>
+
+<div class="q-card" id="q37">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 37</span>
+      <span class="q-topic-tag">DMA</span>
+    </div>
+    <div class="q-text">Direct Memory Access (DMA) allows I/O devices to transfer data to/from memory:</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,37,'A')"><span class="opt-letter">A</span><span class="opt-text">Only through CPU registers</span></div>
+      <div class="opt" onclick="pick(this,37,'B')"><span class="opt-letter">B</span><span class="opt-text">Without constant CPU involvement</span></div>
+      <div class="opt" onclick="pick(this,37,'C')"><span class="opt-letter">C</span><span class="opt-text">By stopping all other processes</span></div>
+      <div class="opt" onclick="pick(this,37,'D')"><span class="opt-letter">D</span><span class="opt-text">Only using cache memory</span></div>
+    </div>
+    <div class="result-tag" id="rt37"></div>
+  </div>
+</div>
+
+<!-- ════════════ CHAPTER 10 ════════════ -->
+<div class="chapter-head">
+  <div class="chapter-num">10</div>
+  <div class="chapter-info">
+    <div class="chapter-title">Chapter 10</div>
+    <div class="chapter-name">Security & Protection</div>
+  </div>
+  <div class="chapter-line"></div>
+</div>
+
+<div class="q-card" id="q38">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 38</span>
+      <span class="q-topic-tag">Access Control</span>
+    </div>
+    <div class="q-text">An Access Control List (ACL) specifies:</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,38,'A')"><span class="opt-letter">A</span><span class="opt-text">The hardware configuration of the system</span></div>
+      <div class="opt" onclick="pick(this,38,'B')"><span class="opt-letter">B</span><span class="opt-text">Which users or processes are permitted to access which resources and how</span></div>
+      <div class="opt" onclick="pick(this,38,'C')"><span class="opt-letter">C</span><span class="opt-text">The list of all running processes</span></div>
+      <div class="opt" onclick="pick(this,38,'D')"><span class="opt-letter">D</span><span class="opt-text">The network routing table</span></div>
+    </div>
+    <div class="result-tag" id="rt38"></div>
+  </div>
+</div>
+
+<div class="q-card" id="q39">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 39</span>
+      <span class="q-topic-tag">Authentication</span>
+    </div>
+    <div class="q-text">A password-based login system is an example of:</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,39,'A')"><span class="opt-letter">A</span><span class="opt-text">Authorization</span></div>
+      <div class="opt" onclick="pick(this,39,'B')"><span class="opt-letter">B</span><span class="opt-text">Authentication</span></div>
+      <div class="opt" onclick="pick(this,39,'C')"><span class="opt-letter">C</span><span class="opt-text">Encryption</span></div>
+      <div class="opt" onclick="pick(this,39,'D')"><span class="opt-letter">D</span><span class="opt-text">Auditing</span></div>
+    </div>
+    <div class="result-tag" id="rt39"></div>
+  </div>
+</div>
+
+<!-- ════════════ CHAPTER 11 ════════════ -->
+<div class="chapter-head">
+  <div class="chapter-num">11</div>
+  <div class="chapter-info">
+    <div class="chapter-title">Chapter 11</div>
+    <div class="chapter-name">Advanced & Mixed Topics</div>
+  </div>
+  <div class="chapter-line"></div>
+</div>
+
+<div class="q-card" id="q40">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 40</span>
+      <span class="q-topic-tag">Kernel Types</span>
+    </div>
+    <div class="q-text">A microkernel OS keeps only the most essential services in kernel space. Which of the following is a microkernel OS example?</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,40,'A')"><span class="opt-letter">A</span><span class="opt-text">Windows XP</span></div>
+      <div class="opt" onclick="pick(this,40,'B')"><span class="opt-letter">B</span><span class="opt-text">Linux (monolithic)</span></div>
+      <div class="opt" onclick="pick(this,40,'C')"><span class="opt-letter">C</span><span class="opt-text">MINIX</span></div>
+      <div class="opt" onclick="pick(this,40,'D')"><span class="opt-letter">D</span><span class="opt-text">MS-DOS</span></div>
+    </div>
+    <div class="result-tag" id="rt40"></div>
+  </div>
+</div>
+
+<div class="q-card" id="q41">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 41</span>
+      <span class="q-topic-tag">Spooling</span>
+    </div>
+    <div class="q-text">SPOOL stands for Simultaneous Peripheral Operations On-Line. Spooling is most commonly used for managing:</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,41,'A')"><span class="opt-letter">A</span><span class="opt-text">CPU registers</span></div>
+      <div class="opt" onclick="pick(this,41,'B')"><span class="opt-letter">B</span><span class="opt-text">Printer and slow device queues</span></div>
+      <div class="opt" onclick="pick(this,41,'C')"><span class="opt-letter">C</span><span class="opt-text">Virtual memory pages</span></div>
+      <div class="opt" onclick="pick(this,41,'D')"><span class="opt-letter">D</span><span class="opt-text">Network packets</span></div>
+    </div>
+    <div class="result-tag" id="rt41"></div>
+  </div>
+</div>
+
+<div class="q-card" id="q42">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 42</span>
+      <span class="q-topic-tag">Multiprogramming</span>
+    </div>
+    <div class="q-text">The main purpose of multiprogramming is to:</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,42,'A')"><span class="opt-letter">A</span><span class="opt-text">Allow multiple users on different computers</span></div>
+      <div class="opt" onclick="pick(this,42,'B')"><span class="opt-letter">B</span><span class="opt-text">Keep the CPU busy by having multiple jobs in memory simultaneously</span></div>
+      <div class="opt" onclick="pick(this,42,'C')"><span class="opt-letter">C</span><span class="opt-text">Run programs written in multiple languages</span></div>
+      <div class="opt" onclick="pick(this,42,'D')"><span class="opt-letter">D</span><span class="opt-text">Reduce the need for RAM</span></div>
+    </div>
+    <div class="result-tag" id="rt42"></div>
+  </div>
+</div>
+
+<div class="q-card" id="q43">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 43</span>
+      <span class="q-topic-tag">Real-Time OS</span>
+    </div>
+    <div class="q-text">A Hard Real-Time Operating System guarantees:</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,43,'A')"><span class="opt-letter">A</span><span class="opt-text">Best-effort response within approximate deadlines</span></div>
+      <div class="opt" onclick="pick(this,43,'B')"><span class="opt-letter">B</span><span class="opt-text">Tasks will always complete within strict, guaranteed deadlines</span></div>
+      <div class="opt" onclick="pick(this,43,'C')"><span class="opt-letter">C</span><span class="opt-text">Maximum throughput regardless of timing</span></div>
+      <div class="opt" onclick="pick(this,43,'D')"><span class="opt-letter">D</span><span class="opt-text">Unlimited process execution time</span></div>
+    </div>
+    <div class="result-tag" id="rt43"></div>
+  </div>
+</div>
+
+<div class="q-card" id="q44">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 44</span>
+      <span class="q-topic-tag">Aging</span>
+    </div>
+    <div class="q-text">Aging is a technique used in scheduling to prevent starvation by:</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,44,'A')"><span class="opt-letter">A</span><span class="opt-text">Decreasing the priority of old processes</span></div>
+      <div class="opt" onclick="pick(this,44,'B')"><span class="opt-letter">B</span><span class="opt-text">Gradually increasing the priority of waiting processes</span></div>
+      <div class="opt" onclick="pick(this,44,'C')"><span class="opt-letter">C</span><span class="opt-text">Deleting processes that have waited too long</span></div>
+      <div class="opt" onclick="pick(this,44,'D')"><span class="opt-letter">D</span><span class="opt-text">Resetting the time quantum after each process</span></div>
+    </div>
+    <div class="result-tag" id="rt44"></div>
+  </div>
+</div>
+
+<div class="q-card" id="q45">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 45</span>
+      <span class="q-topic-tag">Swapping</span>
+    </div>
+    <div class="q-text">Swapping in memory management refers to:</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,45,'A')"><span class="opt-letter">A</span><span class="opt-text">Exchanging data between CPU registers</span></div>
+      <div class="opt" onclick="pick(this,45,'B')"><span class="opt-letter">B</span><span class="opt-text">Moving entire processes between main memory and secondary storage</span></div>
+      <div class="opt" onclick="pick(this,45,'C')"><span class="opt-letter">C</span><span class="opt-text">Switching the CPU between two cores</span></div>
+      <div class="opt" onclick="pick(this,45,'D')"><span class="opt-letter">D</span><span class="opt-text">Replacing one algorithm with another at runtime</span></div>
+    </div>
+    <div class="result-tag" id="rt45"></div>
+  </div>
+</div>
+
+<div class="q-card" id="q46">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 46</span>
+      <span class="opt-letter">OS Structure</span>
+    </div>
+    <div class="q-text">Which OS structure organizes the operating system into layers, where each layer uses services from the layer below it?</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,46,'A')"><span class="opt-letter">A</span><span class="opt-text">Simple (monolithic) structure</span></div>
+      <div class="opt" onclick="pick(this,46,'B')"><span class="opt-letter">B</span><span class="opt-text">Layered approach</span></div>
+      <div class="opt" onclick="pick(this,46,'C')"><span class="opt-letter">C</span><span class="opt-text">Virtual machine approach</span></div>
+      <div class="opt" onclick="pick(this,46,'D')"><span class="opt-letter">D</span><span class="opt-text">Exokernel structure</span></div>
+    </div>
+    <div class="result-tag" id="rt46"></div>
+  </div>
+</div>
+
+<div class="q-card" id="q47">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 47</span>
+      <span class="q-topic-tag">Boot Process</span>
+    </div>
+    <div class="q-text">The small program that loads the OS kernel from disk into memory during startup is called the:</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,47,'A')"><span class="opt-letter">A</span><span class="opt-text">Shell</span></div>
+      <div class="opt" onclick="pick(this,47,'B')"><span class="opt-letter">B</span><span class="opt-text">Bootstrap loader (Bootloader)</span></div>
+      <div class="opt" onclick="pick(this,47,'C')"><span class="opt-letter">C</span><span class="opt-text">Device driver</span></div>
+      <div class="opt" onclick="pick(this,47,'D')"><span class="opt-letter">D</span><span class="opt-text">Linker</span></div>
+    </div>
+    <div class="result-tag" id="rt47"></div>
+  </div>
+</div>
+
+<div class="q-card" id="q48">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 48</span>
+      <span class="q-topic-tag">RAID</span>
+    </div>
+    <div class="q-text">RAID Level 1 provides fault tolerance by using:</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,48,'A')"><span class="opt-letter">A</span><span class="opt-text">Data striping without redundancy</span></div>
+      <div class="opt" onclick="pick(this,48,'B')"><span class="opt-letter">B</span><span class="opt-text">Disk mirroring (exact copy on two disks)</span></div>
+      <div class="opt" onclick="pick(this,48,'C')"><span class="opt-letter">C</span><span class="opt-text">Parity blocks distributed across disks</span></div>
+      <div class="opt" onclick="pick(this,48,'D')"><span class="opt-letter">D</span><span class="opt-text">Compression of all data</span></div>
+    </div>
+    <div class="result-tag" id="rt48"></div>
+  </div>
+</div>
+
+<div class="q-card" id="q49">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 49</span>
+      <span class="q-topic-tag">Interrupt</span>
+    </div>
+    <div class="q-text">An interrupt is a signal to the processor indicating that an event needs immediate attention. Which type of interrupt is generated by the hardware?</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,49,'A')"><span class="opt-letter">A</span><span class="opt-text">Software interrupt (trap)</span></div>
+      <div class="opt" onclick="pick(this,49,'B')"><span class="opt-letter">B</span><span class="opt-text">Hardware interrupt</span></div>
+      <div class="opt" onclick="pick(this,49,'C')"><span class="opt-letter">C</span><span class="opt-text">System call</span></div>
+      <div class="opt" onclick="pick(this,49,'D')"><span class="opt-letter">D</span><span class="opt-text">Exception only</span></div>
+    </div>
+    <div class="result-tag" id="rt49"></div>
+  </div>
+</div>
+
+<div class="q-card" id="q50">
+  <div class="q-card-inner">
+    <div class="q-header">
+      <span class="q-num-tag">Q 50</span>
+      <span class="q-topic-tag">Virtual Machine</span>
+    </div>
+    <div class="q-text">A Virtual Machine (VM) provides each process with an illusion of having its own dedicated:</div>
+    <div class="options">
+      <div class="opt" onclick="pick(this,50,'A')"><span class="opt-letter">A</span><span class="opt-text">Physical printer</span></div>
+      <div class="opt" onclick="pick(this,50,'B')"><span class="opt-letter">B</span><span class="opt-text">Complete computer — CPU, memory, and I/O devices</span></div>
+      <div class="opt" onclick="pick(this,50,'C')"><span class="opt-letter">C</span><span class="opt-text">Network connection only</span></div>
+      <div class="opt" onclick="pick(this,50,'D')"><span class="opt-letter">D</span><span class="opt-text">Display monitor</span></div>
+    </div>
+    <div class="result-tag" id="rt50"></div>
+  </div>
+</div>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <button class="btn btn-gold" onclick="submitAll()">Submit Answers</button>
+  <button class="btn btn-outline" onclick="resetAll()">Reset Test</button>
+</div>
+
+<!-- SCOREBOARD -->
+<div id="scoreboard">
+  <div class="sb-top">
+    <div class="sb-title">TEST COMPLETE</div>
+    <div class="score-display">
+      <div class="score-ring">
+        <div class="score-num" id="score-num">0</div>
+        <div class="score-denom">out of 50</div>
+      </div>
+    </div>
+    <div class="grade-text" id="grade-text"></div>
+  </div>
+  <div class="sb-stats">
+    <div class="sb-stat">
+      <div class="sb-stat-val green" id="correct-count">0</div>
+      <div class="sb-stat-label">Correct</div>
+    </div>
+    <div class="sb-stat">
+      <div class="sb-stat-val red" id="wrong-count">0</div>
+      <div class="sb-stat-label">Wrong</div>
+    </div>
+    <div class="sb-stat">
+      <div class="sb-stat-val muted" id="skip-count">0</div>
+      <div class="sb-stat-label">Skipped</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<script>
+// ── ANSWER KEY ───────────────────────────────────────
+const KEY = {
+   1:'B',  2:'C',  3:'C',  4:'B',  5:'C',
+   6:'B',  7:'B',  8:'B',  9:'B', 10:'B',
+  11:'B', 12:'A', 13:'B', 14:'C', 15:'B',
+  16:'B', 17:'B', 18:'B', 19:'C', 20:'B',
+  21:'B', 22:'B', 23:'B', 24:'B', 25:'B',
+  26:'B', 27:'B', 28:'B', 29:'C', 30:'B',
+  31:'C', 32:'D', 33:'B', 34:'B', 35:'B',
+  36:'B', 37:'B', 38:'B', 39:'B', 40:'C',
+  41:'B', 42:'B', 43:'B', 44:'B', 45:'B',
+  46:'B', 47:'B', 48:'B', 49:'B', 50:'B'
+};
+
+const chosen = {};
+let submitted = false;
+let secondsLeft = 60 * 60;
+
+// ── TIMER ────────────────────────────────────────────
+const timerEl = document.getElementById('timer-display');
+const interval = setInterval(() => {
+  if (submitted) { clearInterval(interval); return; }
+  secondsLeft--;
+  const m = String(Math.floor(secondsLeft / 60)).padStart(2,'0');
+  const s = String(secondsLeft % 60).padStart(2,'0');
+  timerEl.textContent = m + ':' + s;
+  if (secondsLeft <= 300) timerEl.classList.add('warning');
+  if (secondsLeft <= 0)  { clearInterval(interval); submitAll(); }
+}, 1000);
+
+// ── PICK ─────────────────────────────────────────────
+function pick(el, qNum, letter) {
+  if (submitted) return;
+  const card = document.getElementById('q' + qNum);
+  card.querySelectorAll('.opt').forEach(o => o.classList.remove('chosen'));
+  el.classList.add('chosen');
+  chosen[qNum] = letter;
+  updateProgress();
+}
+
+function updateProgress() {
+  const n = Object.keys(chosen).length;
+  document.getElementById('prog-fill').style.width = (n / 50 * 100) + '%';
+  document.getElementById('prog-label').textContent = n + ' / 50 answered';
+  document.getElementById('ans-count').textContent = n;
+}
+
+// ── SUBMIT ────────────────────────────────────────────
+function submitAll() {
+  if (submitted) return;
+  submitted = true;
+  clearInterval(interval);
+
+  let correct = 0, wrong = 0, skipped = 0;
+  const letters = ['A','B','C','D'];
+
+  for (let q = 1; q <= 50; q++) {
+    const card  = document.getElementById('q' + q);
+    const right = KEY[q];
+    const pick  = chosen[q];
+    const opts  = card.querySelectorAll('.opt');
+    const rt    = document.getElementById('rt' + q);
+
+    opts.forEach(o => o.classList.remove('chosen'));
+
+    opts.forEach((o, i) => {
+      const ltr = letters[i];
+      if (ltr === right && ltr === pick) {
+        o.classList.add('opt-correct');
+        card.classList.add('correct-card');
+      } else if (ltr === pick && pick !== right) {
+        o.classList.add('opt-wrong');
+        card.classList.add('wrong-card');
+      } else if (ltr === right) {
+        o.classList.add('opt-reveal');
+      }
+    });
+
+    if (!pick) {
+      rt.textContent = '— Not Answered';
+      rt.className = 'result-tag show r-skip';
+      skipped++;
+    } else if (pick === right) {
+      rt.textContent = '✓ Correct';
+      rt.className = 'result-tag show r-correct';
+      correct++;
+    } else {
+      rt.textContent = `✗ Wrong  ·  Answer: ${right}`;
+      rt.className = 'result-tag show r-wrong';
+      wrong++;
+    }
+  }
+
+  const sb = document.getElementById('scoreboard');
+  sb.style.display = 'block';
+  document.getElementById('score-num').textContent = correct;
+  document.getElementById('correct-count').textContent = correct;
+  document.getElementById('wrong-count').textContent = wrong;
+  document.getElementById('skip-count').textContent = skipped;
+
+  const pct = (correct / 50) * 100;
+  let grade = '';
+  if (pct >= 90)      grade = '★ OUTSTANDING — DISTINCTION';
+  else if (pct >= 80) grade = '★ EXCELLENT — GRADE A';
+  else if (pct >= 70) grade = '✔ GOOD — GRADE B';
+  else if (pct >= 60) grade = '✔ AVERAGE — GRADE C';
+  else if (pct >= 50) grade = '⚠ PASS — GRADE D';
+  else                grade = '✗ FAIL — BELOW PASSING STANDARD';
+
+  document.getElementById('grade-text').textContent = grade;
+  sb.scrollIntoView({ behavior: 'smooth' });
+}
+
+function resetAll() { location.reload(); }
+</script>
+</body>
+</html>
